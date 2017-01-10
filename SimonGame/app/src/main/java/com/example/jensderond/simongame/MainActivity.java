@@ -15,9 +15,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-
         aboutusButton = (Button) findViewById(R.id.button_about_us);
         instructionsButton = (Button) findViewById(R.id.button_instructions);
+
+        setOnClickListeners();
+    }
+
+    public void setOnClickListeners(){
         instructionsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), InstructionsActivity.class);
@@ -26,7 +30,7 @@ public class MainActivity extends Activity {
         });
         aboutusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AboutusActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AboutUsActivity.class);
                 startActivity(intent);
             }
         });

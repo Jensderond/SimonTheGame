@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageview_ruben"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/ruben"/>
+
+        <TextView
+            android:id="@+id/textview_title_student_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/textview_margin_top"
+            android:layout_marginBottom="@dimen/textview_margin_bottom"
+            android:layout_toEndOf="@id/imageview_ruben"
+            android:text="@string/student_1"
+            android:textStyle="bold"
+            android:textSize="@dimen/textview_big"/>
+
+        <TextView
+            android:id="@+id/textview_intro_student_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/student_1_intro"
+            android:textSize="@dimen/textview_small"
+            android:layout_below="@id/textview_title_student_1"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/imageview_ruben" />
+
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/textview_margin_top"
+        android:layout_marginBottom="@dimen/textview_margin_bottom"
+        android:background="@android:color/darker_gray"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageview_jens"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/jens"/>
+
+        <TextView
+            android:id="@+id/textview_title_student_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/textview_margin_top"
+            android:layout_marginBottom="@dimen/textview_margin_bottom"
+            android:layout_toEndOf="@id/imageview_jens"
+            android:text="@string/student_2"
+            android:textStyle="bold"
+            android:textSize="@dimen/textview_big"/>
+
+        <TextView
+            android:id="@+id/textview_intro_student_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/student_2_intro"
+            android:textSize="@dimen/textview_small"
+            android:layout_below="@+id/textview_title_student_2"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/imageview_jens" />
+
+    </RelativeLayout>
+
+</LinearLayout>
