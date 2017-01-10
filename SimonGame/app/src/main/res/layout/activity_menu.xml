@@ -22,8 +22,7 @@
         android:layout_height="wrap_content"
         android:text="Instructions"
         android:id="@+id/button_instructions"
-        android:layout_gravity="center"
-        android:onClick="button_instructions_onClick" />
+        android:layout_gravity="center" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

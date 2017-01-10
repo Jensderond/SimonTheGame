@@ -4,18 +4,31 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
+
+    Button instructionsButton, aboutusButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
+        setContentView(R.layout.activity_menu);
 
-    public void button_instructions_onClick(View view) {
-        Intent intent = new Intent(this, InstructionsActivity.class);
 
-        startActivity(intent);
+        aboutusButton = (Button) findViewById(R.id.button_about_us);
+        instructionsButton = (Button) findViewById(R.id.button_instructions);
+        instructionsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), InstructionsActivity.class);
+                startActivity(intent);
+            }
+        });
+        aboutusButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AboutusActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
