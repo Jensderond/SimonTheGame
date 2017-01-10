@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">SimonGame</string>
+
+    <string name="action_start">Start</string>
+    <string name="title_activity_instructions">Instructies</string>
+    <string name="action_settings">Instellingen</string>
+    <string name="classic">Classiek</string>
+    <string name="classic_instructions">In de Classieke modus krijg je een reeks met kleuren te zien. Het doel is om de kleuren die op het scherm getoond worden in de juiste volgorde aan te klikken.</string>
+    <string name="reverse">Twist</string>
+    <string name="reverse_instructions">In de Twist modus krijg je een reeks met kleuren te zien. Het doel is om de kleuren die op het scherm getoond worden in de omgekeerde volgorde aan te klikken.
+    Voorbeeld: bij Rood, Geel, Blauw, moet je klikken op Blauw, Geel, Rood</string>
 </resources>
