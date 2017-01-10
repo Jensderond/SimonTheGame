@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:gravity="center">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Classic Game"
+        android:id="@+id/button_start"
+        android:layout_gravity="center"
+        android:onClick="button_start_onClick" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reverse Mode"
+        android:id="@+id/button_startReverse"
+        android:layout_gravity="center"
+        android:onClick="button_startReverse_onClick" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Instructions"
+        android:id="@+id/button_instructions"
+        android:layout_gravity="center"
+        android:onClick="button_instructions_onClick" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="About us"
+        android:id="@+id/button_about_us"
+        android:layout_gravity="center"
+        android:onClick="button_aboutus_onClick" />
+
+</LinearLayout>
