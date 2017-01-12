@@ -66,10 +66,10 @@ public class SoundPlayer implements SoundPool.OnLoadCompleteListener {
 
     private void initSoundData() {
         if (mContext != null) {
-//            mTrackList.add(mSp.load(mContext, R.raw.audiotrack1, 0));
-//            mTrackList.add(mSp.load(mContext, R.raw.audiotrack2, 0));
-//            mTrackList.add(mSp.load(mContext, R.raw.audiotrack3, 0));
-//            mTrackList.add(mSp.load(mContext, R.raw.audiotrack4, 0));
+            mTrackList.add(mSp.load(mContext, R.raw.note1, 0));
+            mTrackList.add(mSp.load(mContext, R.raw.note2, 0));
+            mTrackList.add(mSp.load(mContext, R.raw.note3, 0));
+            mTrackList.add(mSp.load(mContext, R.raw.note4, 0));
         }
     }
 
