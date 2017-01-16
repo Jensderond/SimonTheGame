@@ -3,6 +3,7 @@ package com.example.jensderond.simongame;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -14,12 +15,14 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayerLoadCompleteListener {
-    private Button _blue,_yellow,_red,_green;
+    public Button _blue, _yellow, _red, _green, btnStart;
     private SoundPlayer mSoundPlayer;
     private Realm realm;
     private SharedPreferences sharedPref;
     private TextView textViewPlayerName;
     private String cur_user;
+    private SimonSequence seq;
+    private static final int YELLOW = 3, RED = 2, BLUE = 4, GREEN = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +30,13 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         setContentView(R.layout.activity_main);
         SoundPlayer.mContext = getApplicationContext();
 
-        _blue               = (Button) findViewById(R.id.buttonBlue);
-        _red                = (Button) findViewById(R.id.buttonRed);
-        _green              = (Button) findViewById(R.id.buttonGreen);
-        _yellow             = (Button) findViewById(R.id.buttonYellow);
-        textViewPlayerName  = (TextView) findViewById(R.id.txtViewPlayerName);
+        _blue = (Button) findViewById(R.id.buttonBlue);
+        _red = (Button) findViewById(R.id.buttonRed);
+        _green = (Button) findViewById(R.id.buttonGreen);
+        _yellow = (Button) findViewById(R.id.buttonYellow);
+        btnStart = (Button) findViewById(R.id.btnStart);
+        textViewPlayerName = (TextView) findViewById(R.id.txtViewPlayerName);
+
 
         sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         cur_user = sharedPref.getString("cur_user", "");
@@ -45,24 +50,73 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         realm = Realm.getDefaultInstance();
 
         RealmResults<Player> result = realm.where(Player.class).findAll();
-        for(int i = 0; i < result.size(); i++){
+        for (int i = 0; i < result.size(); i++) {
             Log.d("Player name", result.get(i).getName());
         }
 
         setOnTouchListeners();
+        seq = new SimonSequence(ClassicActivity.this);
+
     }
 
-    public void setOnTouchListeners(){
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
+    public void setLightColor(int color) {
+        if (color == GREEN) {
+            _green.setBackgroundColor(getResources().getColor(R.color.light_green, null));
+            mSoundPlayer.playSound(SoundPlayer.GREEN_TONE);
+            Log.d("Color", String.valueOf(color));
+        }
+        if (color == RED) {
+            _red.setBackgroundColor(getResources().getColor(R.color.light_red, null));
+            mSoundPlayer.playSound(SoundPlayer.RED_TONE);
+            Log.d("Color", String.valueOf(color));
+        }
+        if (color == YELLOW) {
+            _yellow.setBackgroundColor(getResources().getColor(R.color.light_yellow, null));
+            mSoundPlayer.playSound(SoundPlayer.YELLOW_TONE);
+            Log.d("Color", String.valueOf(color));
+        }
+        if (color == BLUE) {
+            _blue.setBackgroundColor(getResources().getColor(R.color.light_blue, null));
+            mSoundPlayer.playSound(SoundPlayer.BLUE_TONE);
+            Log.d("Color", String.valueOf(color));
+        }
+    }
+
+    public void setDarkColor(int color) {
+        if (color == GREEN) {
+            _green.setBackgroundColor(getResources().getColor(R.color.dark_green, null));
+            Log.d("ColorDark", String.valueOf(color));
+        }
+        if (color == RED) {
+            _red.setBackgroundColor(getResources().getColor(R.color.dark_red, null));
+            Log.d("ColorDark", String.valueOf(color));
+        }
+        if (color == YELLOW) {
+            _yellow.setBackgroundColor(getResources().getColor(R.color.dark_yellow, null));
+            Log.d("ColorDark", String.valueOf(color));
+        }
+        if (color == BLUE) {
+            _blue.setBackgroundColor(getResources().getColor(R.color.dark_blue, null));
+            Log.d("ColorDark", String.valueOf(color));
+        }
+    }
+
+    public void setOnTouchListeners() {
         _blue.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch(motionEvent.getAction()) {
+                switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        mSoundPlayer.playSound(SoundPlayer.BLUE_TONE);
-                        _blue.setBackgroundColor( getResources().getColor(R.color.light_blue, null));
+                        setLightColor(BLUE);
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
-                        _blue.setBackgroundColor( getResources().getColor(R.color.dark_blue, null));
+                        setDarkColor(BLUE);
                         return true; // if you want to handle the touch event
                 }
                 return false;
@@ -71,13 +125,12 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         _red.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch(motionEvent.getAction()) {
+                switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        mSoundPlayer.playSound(SoundPlayer.RED_TONE);
-                        _red.setBackgroundColor( getResources().getColor(R.color.light_red, null));
+                        setLightColor(RED);
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
-                        _red.setBackgroundColor( getResources().getColor(R.color.dark_red, null));
+                        setDarkColor(RED);
                         return true; // if you want to handle the touch event
                 }
                 return false;
@@ -86,13 +139,12 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         _green.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch(motionEvent.getAction()) {
+                switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        mSoundPlayer.playSound(SoundPlayer.GREEN_TONE);
-                        _green.setBackgroundColor( getResources().getColor(R.color.light_green, null));
+                        setLightColor(GREEN);
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
-                        _green.setBackgroundColor( getResources().getColor(R.color.dark_green, null));
+                        setDarkColor(GREEN);
                         return true; // if you want to handle the touch event
                 }
                 return false;
@@ -101,13 +153,25 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         _yellow.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch(motionEvent.getAction()) {
+                switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        mSoundPlayer.playSound(SoundPlayer.YELLOW_TONE);
-                        _yellow.setBackgroundColor( getResources().getColor(R.color.light_yellow, null));
+                        setLightColor(YELLOW);
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
-                        _yellow.setBackgroundColor( getResources().getColor(R.color.dark_yellow, null));
+                        setDarkColor(YELLOW);
+                        return true; // if you want to handle the touch event
+                }
+                return false;
+            }
+        });
+        btnStart.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        return true; // if you want to handle the touch event
+                    case MotionEvent.ACTION_UP:
+                        seq.newGame(10);
                         return true; // if you want to handle the touch event
                 }
                 return false;

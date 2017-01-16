@@ -51,7 +51,7 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
             public void onClick(View v){
                 mSoundPlayer.playSound(SoundPlayer.BLUE_TONE);
                 cur_user = sharedPref.getString("cur_user", "");
-                if ( cur_user == null ) {
+                if ( !cur_user.contains("") ) {
 
                     RealmResults<Player> result = realm.where(Player.class).findAll();
                     if( result.size() > 0 ) {
@@ -73,7 +73,7 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
             public void onClick(View v){
                 mSoundPlayer.playSound(SoundPlayer.GREEN_TONE);
                 cur_user = sharedPref.getString("cur_user", "");
-                if ( cur_user == null ) {
+                if ( !cur_user.contains("") ) {
 
                     RealmResults<Player> result = realm.where(Player.class).findAll();
                     if( result.size() > 0 ) {
