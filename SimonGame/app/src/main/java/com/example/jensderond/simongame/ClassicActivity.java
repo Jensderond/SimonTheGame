@@ -1,15 +1,25 @@
 package com.example.jensderond.simongame;
 
 import android.app.Activity;
-import android.graphics.Color;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayerLoadCompleteListener {
-    Button _blue,_yellow,_red,_green;
+    private Button _blue,_yellow,_red,_green;
     private SoundPlayer mSoundPlayer;
+    private Realm realm;
+    private SharedPreferences sharedPref;
+    private TextView textViewPlayerName;
+    private String cur_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,13 +27,27 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         setContentView(R.layout.activity_main);
         SoundPlayer.mContext = getApplicationContext();
 
-        _blue           = (Button) findViewById(R.id.buttonBlue);
-        _red            = (Button) findViewById(R.id.buttonRed);
-        _green          = (Button) findViewById(R.id.buttonGreen);
-        _yellow         = (Button) findViewById(R.id.buttonYellow);
+        _blue               = (Button) findViewById(R.id.buttonBlue);
+        _red                = (Button) findViewById(R.id.buttonRed);
+        _green              = (Button) findViewById(R.id.buttonGreen);
+        _yellow             = (Button) findViewById(R.id.buttonYellow);
+        textViewPlayerName  = (TextView) findViewById(R.id.txtViewPlayerName);
+
+        sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        cur_user = sharedPref.getString("cur_user", "");
+
+        textViewPlayerName.setText(cur_user);
+
 
         mSoundPlayer = new SoundPlayer();
         mSoundPlayer.setOnLoadCompleteListener(this);
+        Realm.init(this);
+        realm = Realm.getDefaultInstance();
+
+        RealmResults<Player> result = realm.where(Player.class).findAll();
+        for(int i = 0; i < result.size(); i++){
+            Log.d("Player name", result.get(i).getName());
+        }
 
         setOnTouchListeners();
     }

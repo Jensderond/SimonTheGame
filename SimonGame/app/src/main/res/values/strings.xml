@@ -1,16 +1,25 @@
 <resources>
     <string name="app_name">SimonGame</string>
 
+    <string name="add_user">Voeg gebruiker toe</string>
+    <string name="delete_user">Verwijder gebruiker</string>
+    <string name="username">Gebruikersnaam</string>
+    <string name="gender">Geslacht</string>
+    <string name="male">Man</string>
+    <string name="female">Pussy</string>
+    <string name="error_fill_username">De gebruikersnaam is leeg.</string>
     <string name="action_start">Start</string>
     <string name="title_activity_instructions">Instructies</string>
     <string name="action_settings">Instellingen</string>
-    <string name="classic">Klassiek</string>
+    <string name="about_us">Over ons</string>
+    <string name="select_user">Kies gebruiker</string>
+    <string name="classic">Klassieke mode</string>
     <string name="classic_instructions">In de Klassieke modus krijg je een reeks met kleuren te zien. Het doel is om de kleuren die op het scherm getoond worden in de juiste volgorde aan te klikken.</string>
-    <string name="reverse">Twist</string>
+    <string name="reverse">Twist mode</string>
     <string name="reverse_instructions">In de Twist modus krijg je een reeks met kleuren te zien. Het doel is om de kleuren die op het scherm getoond worden in de omgekeerde volgorde aan te klikken.
     Voorbeeld: bij Rood, Geel, Blauw, moet je klikken op Blauw, Geel, Rood</string>
     <string name="student_1">Ruben Meijers</string>
     <string name="student_2">Jens de Rond</string>
-    <string name="student_1_intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et tellus neque. Aliquam tempus arcu in eros semper, at efficitur metus pretium. Nullam condimentum molestie nunc ut rutrum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque nisl nulla, suscipit id condimentum quis, tempor eget massa.</string>
+    <string name="student_1_intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et tellus neque. Aliquam tempus arcu in eros semper, at efficitur metus pretium. Nullam condimentum molestie nunc ut rutrum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque nisl nulla, suscipit id condimentum quis, tempor eget massaLorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et tellus neque. Aliquam tempus arcu in eros semper, at efficitur metus pretium. Nullam condimentum molestie nunc ut rutrum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque nisl nulla, suscipit id condimentum quis, tempor eget massa.</string>
     <string name="student_2_intro">Maecenas accumsan ultricies mauris, sit amet vehicula nunc ultricies quis. Fusce consectetur pulvinar nisi, a egestas sem ultrices vitae. Nulla facilisi. Duis tincidunt, purus ut ultrices faucibus, ex lacus vehicula nulla, at ultrices mi neque eget metus.</string>
 </resources>

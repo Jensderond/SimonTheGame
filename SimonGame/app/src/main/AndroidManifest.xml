@@ -18,6 +18,8 @@
         <activity android:name=".InstructionsActivity"></activity>
         <activity android:name=".AboutUsActivity"></activity>
         <activity android:name=".ClassicActivity"></activity>
+        <activity android:name=".UsersActivity"></activity>
+        <activity android:name=".NewUserActivity"></activity>
     </application>
 
 </manifest>
