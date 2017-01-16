@@ -49,21 +49,19 @@
             android:id="@+id/upperbuttons">
 
             <Button
-                android:text="Red"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="left"
-                android:id="@+id/buttonRed"
-                android:background="@android:color/holo_red_light"
+                android:id="@+id/buttonGreen"
+                android:background="@color/dark_green"
                 android:layout_weight="1" />
 
             <Button
-                android:text="Yellow"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
-                android:id="@+id/buttonYellow"
-                android:background="@android:color/holo_orange_light"
+                android:id="@+id/buttonRed"
+                android:background="@color/dark_red"
                 android:layout_weight="1" />
         </LinearLayout>
 
@@ -74,21 +72,19 @@
             android:id="@+id/lowerbuttons">
 
             <Button
-                android:text="Green"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
-                android:id="@+id/buttonGreen"
-                android:background="@android:color/holo_green_light"
+                android:id="@+id/buttonYellow"
+                android:background="@color/dark_yellow"
                 android:layout_weight="1" />
 
             <Button
-                android:text="Blue"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:id="@+id/buttonBlue"
-                android:background="@android:color/holo_blue_light"
+                android:background="@color/dark_blue"
                 android:layout_weight="1" />
         </LinearLayout>
 
