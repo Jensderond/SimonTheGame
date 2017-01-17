@@ -2,6 +2,7 @@ package com.example.jensderond.simongame;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,7 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
     private static final int YELLOW = 3, RED = 2, BLUE = 4, GREEN = 1;
     private SwitchIconView soundSwitch;
     private View btnSound;
+    private GameMode gameMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,15 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
     }
 
     public void init() {
+        Intent intent = getIntent();
+        String gm = intent.getStringExtra("GameMode");
+        if(gm.equals("Twisted")){
+            gameMode = GameMode.TWISTED;
+        }
+        if(gm.equals("Classic")){
+            gameMode = GameMode.CLASSIC;
+        }
+
         SoundPlayer.mContext = getApplicationContext();
 
         _blue = (Button) findViewById(R.id.buttonBlue);
@@ -59,7 +70,6 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         if (play_audio.equals("true")) {
             soundSwitch.setIconEnabled(true, true);
         }
-
 
         textViewPlayerName.setText(cur_user);
         displayScore(0);
@@ -202,7 +212,12 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
                     case MotionEvent.ACTION_DOWN:
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
-                        seq.newGame();
+                        if ( gameMode == GameMode.CLASSIC){
+                            seq.newGame(GameMode.CLASSIC);
+                        }
+                        else if ( gameMode == GameMode.TWISTED){
+                            seq.newGame(GameMode.TWISTED);
+                        }
                         return true; // if you want to handle the touch event
                 }
                 return false;

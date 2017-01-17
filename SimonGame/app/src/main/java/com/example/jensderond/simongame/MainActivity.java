@@ -67,6 +67,7 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
                 }
                 else {
                     Intent intent = new Intent(getApplicationContext(), ClassicActivity.class);
+                    intent.putExtra("GameMode", "Classic");
                     startActivity(intent);
                 }
             }
@@ -87,7 +88,9 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
                     }
                 }
                 else {
-                    //start reverse game activity.
+                    Intent intent = new Intent(getApplicationContext(), ClassicActivity.class);
+                    intent.putExtra("GameMode", "Twisted");
+                    startActivity(intent);
                 }
             }
         });

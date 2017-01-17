@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,6 +34,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
     private CountDownTimer timeouttimer = null;
     private boolean isrunning = false;
     private State state;
+    private GameMode gameMode;
     private CountDownTimer timer = null;
 
     public SimonSequence(ClassicActivity context) {
@@ -42,7 +44,13 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
     }
 
     // Nieuwe game starten
-    public void newGame(int seqLevel) {
+    public void newGame(int seqLevel, GameMode gameMode) {
+        if (gameMode == GameMode.CLASSIC){
+            this.gameMode = GameMode.CLASSIC;
+        }
+        if (gameMode == GameMode.TWISTED){
+            this.gameMode = GameMode.TWISTED;
+        }
         this.seqLevel = seqLevel;
         //nieuwe sequence maken
 
@@ -54,7 +62,13 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
         }
     }
 
-    public void newGame() {
+    public void newGame(GameMode gameMode) {
+        if (gameMode == GameMode.CLASSIC){
+            this.gameMode = GameMode.CLASSIC;
+        }
+        if (gameMode == GameMode.TWISTED){
+            this.gameMode = GameMode.TWISTED;
+        }
         //state van idle naar start zetten
         if (state == State.IDLE) {
             stateStart();
@@ -145,6 +159,9 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                                 count = 0;
                                 setAllDark();
                                 statePlay();
+                                if (gameMode == GameMode.TWISTED) {
+                                    Collections.reverse(sequence);
+                                }
                                 cd.enableButtons();
                             }
                             checkState();
@@ -203,6 +220,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                             //naar het volgende level
                             seqLevel++;
                             seqCount = 1;
+                            Collections.reverse(sequence);
                             addToSequence();
                             cd.displayScore(seqLevel - 1);
                             stateShow();
