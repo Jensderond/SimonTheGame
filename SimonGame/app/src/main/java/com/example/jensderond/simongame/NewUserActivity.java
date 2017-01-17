@@ -16,6 +16,8 @@ import android.widget.ResourceCursorAdapter;
 import android.widget.Toast;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 /**
  * Created by jensderond on 16/01/2017.
@@ -42,9 +44,6 @@ public class NewUserActivity extends Activity {
         radioGroup = (RadioGroup) findViewById(R.id.radio_group);
         male.setChecked(true);
         sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-
-
-        Realm.init(this);
         realm = Realm.getDefaultInstance();
 
 
@@ -55,11 +54,13 @@ public class NewUserActivity extends Activity {
                 int selectedID = radioGroup.getCheckedRadioButtonId();
                 checked = (RadioButton) findViewById(selectedID);
 
-                if (!username.equals("") && checked.isChecked()) {
+
+                RealmResults<Player> result = realm.where(Player.class).equalTo("name", username.getText().toString()).findAll();
+                if (result.isEmpty() && username.equals("") && checked.isChecked()) {
 
                     realm.beginTransaction();
-                    int nextID = 1;
 
+                    int nextID = 1;
                     try {
                         nextID = (int) (realm.where(Player.class).max("id").longValue() + 1);
                     } catch (NullPointerException e){
@@ -80,7 +81,11 @@ public class NewUserActivity extends Activity {
                             "Gebruiker: " + player.getName() + " toegevoegd!", Toast.LENGTH_SHORT).show();
                     finish();
                 }
-                else {
+                else if(!result.isEmpty()){
+                    Toast.makeText(NewUserActivity.this,
+                            R.string.error_fill_username_taken, Toast.LENGTH_SHORT).show();
+                }
+                else if( username.equals("")){
                     Toast.makeText(NewUserActivity.this,
                             R.string.error_fill_username, Toast.LENGTH_SHORT).show();
                 }

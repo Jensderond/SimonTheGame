@@ -18,6 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 /**
@@ -60,7 +61,6 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
                 android.R.layout.simple_list_item_1,
                 arrayListUsers );
 
-        Realm.init(this);
         realm = Realm.getDefaultInstance();
 
         RealmResults<Player> result = realm.where(Player.class).findAll();
@@ -81,6 +81,12 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
         arrayAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        arrayAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

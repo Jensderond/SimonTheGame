@@ -11,18 +11,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.zagum.switchicon.SwitchIconView;
+
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
-public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayerLoadCompleteListener, Score {
+public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayerLoadCompleteListener, Score, Game {
     public Button _blue, _yellow, _red, _green, btnStart;
     private SoundPlayer mSoundPlayer;
     private Realm realm;
     private SharedPreferences sharedPref;
     private TextView textViewPlayerName, textViewScore;
-    private String cur_user;
+    private String cur_user, play_audio;
     private SimonSequence seq;
     private static final int YELLOW = 3, RED = 2, BLUE = 4, GREEN = 1;
+    private SwitchIconView soundSwitch;
+    private View btnSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +47,21 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         btnStart = (Button) findViewById(R.id.btnStart);
         textViewPlayerName = (TextView) findViewById(R.id.txtViewPlayerName);
         textViewScore = (TextView) findViewById(R.id.txtViewRealScore);
-
+        soundSwitch = (SwitchIconView) findViewById(R.id.switchIconSound);
+        btnSound = findViewById(R.id.btnSound);
 
         sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         cur_user = sharedPref.getString("cur_user", "");
+        play_audio = sharedPref.getString("play_audio", "");
+        if(play_audio.equals("true")){
+            soundSwitch.setIconEnabled(true, true);
+        }
 
         textViewPlayerName.setText(cur_user);
-
+        displayScore(0);
 
         mSoundPlayer = new SoundPlayer();
         mSoundPlayer.setOnLoadCompleteListener(this);
-        Realm.init(this);
         realm = Realm.getDefaultInstance();
 
         RealmResults<Player> result = realm.where(Player.class).findAll();
@@ -62,7 +71,6 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
 
         setOnTouchListeners();
         seq = new SimonSequence(ClassicActivity.this);
-
     }
 
     @Override
@@ -71,6 +79,11 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
     }
 
     public void setLightColor(int color, boolean audio) {
+        play_audio = sharedPref.getString("play_audio", "");
+        if (play_audio.equals("false")){
+            audio = false;
+
+        }
         if (color == GREEN) {
             _green.setBackgroundColor(getResources().getColor(R.color.light_green, null));
             if(audio) {
@@ -189,6 +202,31 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
                         seq.newGame();
+                        return true; // if you want to handle the touch event
+                }
+                return false;
+            }
+        });
+        btnSound.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        return true; // if you want to handle the touch event
+                    case MotionEvent.ACTION_UP:
+                        if (soundSwitch.isIconEnabled()){
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putString("play_audio", "false");
+                            editor.apply();
+                            Log.d("Play audio", "false");
+                        }
+                        else {
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putString("play_audio", "true");
+                            editor.apply();
+                            Log.d("Play audio", "true");
+                        }
+                        soundSwitch.switchState();
                         return true; // if you want to handle the touch event
                 }
                 return false;

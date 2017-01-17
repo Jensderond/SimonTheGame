@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoadCompleteListener {
@@ -35,6 +36,10 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
         aboutusButton               = (Button) findViewById(R.id.button_about_us);
         chooseButton                = (Button) findViewById(R.id.button_select_user);
         Realm.init(this);
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(realmConfiguration);
         realm = Realm.getDefaultInstance();
         mSoundPlayer = new SoundPlayer();
         mSoundPlayer.setOnLoadCompleteListener(this);
