@@ -141,10 +141,10 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         setLightColor(BLUE, true);
-                        seq.sequenceHandler(BLUE);
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
                         setDarkColor(BLUE);
+                        seq.sequenceHandler(BLUE);
                         return true; // if you want to handle the touch event
                 }
                 return false;
@@ -156,10 +156,10 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         setLightColor(RED, true);
-                        seq.sequenceHandler(RED);
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
                         setDarkColor(RED);
+                        seq.sequenceHandler(RED);
                         return true; // if you want to handle the touch event
                 }
                 return false;
@@ -171,10 +171,10 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         setLightColor(GREEN, true);
-                        seq.sequenceHandler(GREEN);
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
                         setDarkColor(GREEN);
+                        seq.sequenceHandler(GREEN);
                         return true; // if you want to handle the touch event
                 }
                 return false;
@@ -186,10 +186,10 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         setLightColor(YELLOW, true);
-                        seq.sequenceHandler(YELLOW);
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
                         setDarkColor(YELLOW);
+                        seq.sequenceHandler(YELLOW);
                         return true; // if you want to handle the touch event
                 }
                 return false;

@@ -65,13 +65,16 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
 
     @Override
     protected Void doInBackground(Void... voids) {
+
         Handler hand = new Handler();
         hand.postDelayed(new Runnable() {
             @Override
             public void run() {
                 checkState();
+
             }
         }, 750);
+
         return null;
     }
 
@@ -108,6 +111,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                 if (count == 0) {
                     timer = new CountDownTimer(1000, 1000) {
                         public void onTick(long millisUntilFinished) {
+                            setAllDark();
                             Log.d("nog ", String.valueOf(millisUntilFinished));
                         }
 
@@ -164,6 +168,12 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                 Log.d("state", "LOST");
                 Toast.makeText(cd,
                         "Helaas verloren!", Toast.LENGTH_SHORT).show();
+                cd.saveHighscore(getScore() - 1);
+                seqLevel = 1;
+                seqCount = 1;
+                sequence.clear();
+                score = 0;
+                cd.displayScore(score);
                 stateIdle();
                 checkState();
                 break;
@@ -183,10 +193,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
             case PLAYING:
                 Log.d("state", "Playing");
                 if (key != sequence.get(seqCount - 1)) {
-                    cd.saveHighscore(getScore() - 1);
                     stateLost();
-                    seqLevel = 1;
-                    seqCount = 1;
                     checkState();
                 } else {
                     if (seqCount == seqLevel) {
@@ -199,6 +206,8 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                             addToSequence();
                             cd.displayScore(seqLevel - 1);
                             stateShow();
+
+
                         }
                         checkState();
                     } else {
@@ -253,7 +262,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
     @Override
     public void sequenceHandler(int key) {
 
-        if (!sequence.isEmpty() && state != State.PLAYING && state != State.SHOWSEQ) {
+        if (!sequence.isEmpty() && state == State.PLAYSEQ) {
             this.key = key;
             stopTimeout();
             statePlaying();
@@ -290,7 +299,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
 
     private void stopTimeout() {
 
-        if (isrunning = true) {
+        if (isrunning && timeouttimer != null) {
             timeouttimer.cancel();
             timeouttimer = null;
             isrunning = false;
