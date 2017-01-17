@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by jensderond on 17/01/2017.
@@ -56,7 +57,7 @@ public class HighscoreActivity extends Activity {
 
     public void refreshData(){
 
-        RealmResults<Highscore> result = realm.where(Highscore.class).findAll().sort("score");
+        RealmResults<Highscore> result = realm.where(Highscore.class).findAll().sort("score", Sort.DESCENDING);
         arrayListHighscores.clear();
         if ( result != null && result.size() > 0) {
             for (int i = 0; i < result.size(); i++) {
