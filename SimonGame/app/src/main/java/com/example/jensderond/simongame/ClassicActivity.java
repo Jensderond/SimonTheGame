@@ -35,7 +35,7 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         init();
     }
 
-    public void init(){
+    public void init() {
         SoundPlayer.mContext = getApplicationContext();
 
         _blue = (Button) findViewById(R.id.buttonBlue);
@@ -51,12 +51,12 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         cur_user = sharedPref.getString("cur_user", "");
         play_audio = sharedPref.getString("play_audio", "");
-        if (play_audio.equals("")){
+        if (play_audio.equals("")) {
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("play_audio", "true");
             editor.apply();
         }
-        if(play_audio.equals("true")){
+        if (play_audio.equals("true")) {
             soundSwitch.setIconEnabled(true, true);
         }
 
@@ -84,34 +84,31 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
 
     public void setLightColor(int color, boolean audio) {
         play_audio = sharedPref.getString("play_audio", "");
-        if (play_audio.equals("false")){
+        if (play_audio.equals("false")) {
             audio = false;
 
         }
         if (color == GREEN) {
             _green.setBackgroundColor(getResources().getColor(R.color.light_green, null));
-            if(audio) {
+            if (audio) {
                 mSoundPlayer.playSound(SoundPlayer.GREEN_TONE);
             }
             Log.d("Color", String.valueOf(color));
-        }
-        else if (color == RED) {
+        } else if (color == RED) {
             _red.setBackgroundColor(getResources().getColor(R.color.light_red, null));
-            if(audio) {
+            if (audio) {
                 mSoundPlayer.playSound(SoundPlayer.RED_TONE);
             }
             Log.d("Color", String.valueOf(color));
-        }
-        else if (color == YELLOW) {
+        } else if (color == YELLOW) {
             _yellow.setBackgroundColor(getResources().getColor(R.color.light_yellow, null));
-            if(audio) {
+            if (audio) {
                 mSoundPlayer.playSound(SoundPlayer.YELLOW_TONE);
             }
             Log.d("Color", String.valueOf(color));
-        }
-        else if (color == BLUE) {
+        } else if (color == BLUE) {
             _blue.setBackgroundColor(getResources().getColor(R.color.light_blue, null));
-            if(audio) {
+            if (audio) {
                 mSoundPlayer.playSound(SoundPlayer.BLUE_TONE);
             }
             Log.d("Color", String.valueOf(color));
@@ -218,13 +215,12 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
                     case MotionEvent.ACTION_DOWN:
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
-                        if (soundSwitch.isIconEnabled()){
+                        if (soundSwitch.isIconEnabled()) {
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putString("play_audio", "false");
                             editor.apply();
                             Log.d("Play audio", "false");
-                        }
-                        else {
+                        } else {
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putString("play_audio", "true");
                             editor.apply();
@@ -249,21 +245,37 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
     }
 
     @Override
-    public void saveHighscore(int score){
+    public void saveHighscore(int score) {
 
         int highestScore = 0;
         try {
-            highestScore = (int) (realm.where(Highscore.class).equalTo("player", cur_user).max("score"));
-        } catch (NullPointerException e){
-            Log.d("Nullpointer: ",e.getMessage());
+            highestScore = (int) (realm.where(Highscore.class).equalTo("player", cur_user).max("Score"));
+        } catch (NullPointerException e) {
+            Log.d("Nullpointer: ", e.getMessage());
         }
         if (highestScore < score) {
-            Highscore high = new Highscore(score,cur_user);
+            Highscore high = new Highscore(score, cur_user);
 
             realm.beginTransaction();
             realm.copyToRealmOrUpdate(high);
             realm.commitTransaction();
             Log.d("Highscore saved", String.valueOf(high.getScore()));
         }
+    }
+
+    public void disableButtons() {
+        _blue.setEnabled(false);
+        _red.setEnabled(false);
+        _yellow.setEnabled(false);
+        _green.setEnabled(false);
+        btnStart.setEnabled(false);
+    }
+
+    public void enableButtons() {
+        _blue.setEnabled(true);
+        _red.setEnabled(true);
+        _yellow.setEnabled(true);
+        _green.setEnabled(true);
+        btnStart.setEnabled(true);
     }
 }
