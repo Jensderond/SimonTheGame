@@ -137,7 +137,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                             if (seqCount - 1 == sequence.size()) {
                                 seqCount = 1;
                                 count = 0;
-                                stateIdle();
+                                statePlay();
                                 checkState();
                             }
                             checkState();
@@ -152,7 +152,6 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
             case PLAYSEQ:
                 Log.d("state", "PLAY");
 //                hier een leuke timer die 5 seconden telt speel je niet ben je af.
-                //added
                 new CountDownTimer(5000, 5000) {
                     public void onTick(long millisecCounter) {
                     }
@@ -161,7 +160,6 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                         checkState();
                     }
                 }.start();
-
                 break;
 
             // LOSING STATE
