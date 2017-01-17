@@ -56,7 +56,7 @@ public class HighscoreActivity extends Activity {
 
     public void refreshData(){
 
-        RealmResults<Highscore> result = realm.where(Highscore.class).findAll();
+        RealmResults<Highscore> result = realm.where(Highscore.class).findAll().sort("score");
         arrayListHighscores.clear();
         if ( result != null && result.size() > 0) {
             for (int i = 0; i < result.size(); i++) {

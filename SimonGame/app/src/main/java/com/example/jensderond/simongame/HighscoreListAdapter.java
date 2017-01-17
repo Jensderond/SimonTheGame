@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+import io.realm.Realm;
 
 /**
  * Created by jensderond on 17/01/2017.
@@ -19,6 +22,7 @@ public class HighscoreListAdapter extends ArrayAdapter<Highscore> {
 
     private ArrayList<Highscore> highscoresArrayList = new ArrayList<>();
     private static LayoutInflater inflater = null;
+    private Realm realm;
 
     /***
      * Constructor of the ArrayOverviewAdapter
@@ -28,6 +32,7 @@ public class HighscoreListAdapter extends ArrayAdapter<Highscore> {
     public HighscoreListAdapter(Context context, ArrayList<Highscore> highscores) {
         super(context, R.layout.listview_row_highscore, highscores);
         this.highscoresArrayList = highscores;
+        realm = Realm.getDefaultInstance();
     }
 
     /**
@@ -46,7 +51,6 @@ public class HighscoreListAdapter extends ArrayAdapter<Highscore> {
      * @return
      */
     public View getView(int position, View convertView, ViewGroup parent) {
-
         // Get the data item for this position
         Highscore highscore = getItem(position);
 
@@ -69,8 +73,46 @@ public class HighscoreListAdapter extends ArrayAdapter<Highscore> {
             viewHolder.display_score = (TextView) convertView.findViewById(R.id.display_score);
         }
 
+
+        Player result = realm.where(Player.class).equalTo("name", highscore.getPlayer()).findFirst();
+
+        int resource = R.mipmap.ic_male1;
+        Random random = new Random();
+        int randomNumber = random.nextInt(5 - 1) + 1;
+        if (result.getGender().equals("Pussy")){
+            switch (randomNumber) {
+                case 1:
+                    resource = R.mipmap.ic_female1;
+                    break;
+                case 2:
+                    resource = R.mipmap.ic_female2;
+                    break;
+                case 3:
+                    resource = R.mipmap.ic_female3;
+                    break;
+                case 4:
+                    resource = R.mipmap.ic_female4;
+                    break;
+            }
+        }
+        else if (result.getGender().equals("male")){
+            switch (randomNumber) {
+                case 1:
+                    resource = R.mipmap.ic_male1;
+                    break;
+                case 2:
+                    resource = R.mipmap.ic_male2;
+                    break;
+                case 3:
+                    resource = R.mipmap.ic_male3;
+                    break;
+                case 4:
+                    resource = R.mipmap.ic_male4;
+                    break;
+            }
+        }
         // Populate the data into the template view using the data object
-        viewHolder.display_image.setBackgroundResource(R.drawable.ic_account_circle);
+        viewHolder.display_image.setImageResource(resource);
         viewHolder.display_name.setText(highscore.getPlayer());
         viewHolder.display_score.setText(String.valueOf(highscore.getScore()));
 
