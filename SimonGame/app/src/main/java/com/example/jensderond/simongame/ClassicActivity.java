@@ -253,9 +253,10 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
 
         int highestScore = 0;
         try {
-            highestScore = (int) (realm.where(Highscore.class).equalTo("player", cur_user).max("score"));
+            Highscore result = realm.where(Highscore.class).equalTo("player", cur_user).findFirst();
+            highestScore = result.getScore();
         } catch (NullPointerException e){
-            Log.d("Nullpointer: ",e.getMessage());
+            Log.d("Nullpointer ",e.getMessage());
         }
         if (highestScore < score) {
             Highscore high = new Highscore(score,cur_user);
