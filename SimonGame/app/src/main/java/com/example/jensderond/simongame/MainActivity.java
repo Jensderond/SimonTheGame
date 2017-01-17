@@ -52,7 +52,6 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
     public void setOnClickListeners(){
         classicbutton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                mSoundPlayer.playSound(SoundPlayer.BLUE_TONE);
                 cur_user = sharedPref.getString("cur_user", "");
                 if ( cur_user.equals("") ) {
 
@@ -74,7 +73,6 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
         });
         reverseButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                mSoundPlayer.playSound(SoundPlayer.GREEN_TONE);
                 cur_user = sharedPref.getString("cur_user", "");
                 if ( cur_user.equals("") ) {
 
@@ -95,28 +93,24 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
         });
         instructionsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mSoundPlayer.playSound(SoundPlayer.RED_TONE);
                 Intent intent = new Intent(getApplicationContext(), InstructionsActivity.class);
                 startActivity(intent);
             }
         });
         aboutusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mSoundPlayer.playSound(SoundPlayer.YELLOW_TONE);
                 Intent intent = new Intent(getApplicationContext(), AboutUsActivity.class);
                 startActivity(intent);
             }
         });
         chooseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mSoundPlayer.playSound(SoundPlayer.BLUE_TONE);
                 Intent intent = new Intent(getApplicationContext(), UsersActivity.class);
                 startActivity(intent);
             }
         });
         highscoreButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mSoundPlayer.playSound(SoundPlayer.BLUE_TONE);
                 Intent intent = new Intent(getApplicationContext(), HighscoreActivity.class);
                 startActivity(intent);
             }
