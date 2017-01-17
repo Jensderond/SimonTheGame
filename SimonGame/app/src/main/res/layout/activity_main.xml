@@ -118,9 +118,9 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:padding="8dp"
+            app:si_tint_color="@color/light_blue"
             app:si_animation_duration="500"
             app:si_disabled_alpha=".3"
-            app:si_disabled_color="#000000"
             app:si_enabled="true"
             app:si_no_dash="false"
             app:srcCompat="@drawable/ic_volume_up_black_48px"/>

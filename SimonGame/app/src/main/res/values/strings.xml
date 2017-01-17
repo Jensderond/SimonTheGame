@@ -1,9 +1,20 @@
 <resources>
     <string name="app_name">SimonGame</string>
 
+    <string name="yes">Ja</string>
+    <string name="no">Nee</string>
+    <string name="help">Help</string>
     <string name="add_user">Voeg gebruiker toe</string>
     <string name="delete_user">Verwijder gebruiker</string>
+    <string name="help_user_delete">Houd de gebruikersnaam ingedrukt om deze te verwijderen.</string>
+    <string name="select_yes_to">Selecteer \'Ja\' om</string>
     <string name="username">Gebruikersnaam</string>
+    <string name="cUser">Gebruiker</string>
+    <string name="user">gebruiker</string>
+    <string name="selected">geselecteerd</string>
+    <string name="deleted">verwijderd</string>
+    <string name="delete">Verwijder </string>
+    <string name="to_delete"> te verwijderen</string>
     <string name="gender">Geslacht</string>
     <string name="score">Score:</string>
     <string name="highscores">Highscores</string>

@@ -28,7 +28,7 @@ import io.realm.exceptions.RealmException;
 
 public class UsersActivity extends Activity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     private Realm realm;
-    private Button buttonNewUser;
+    private Button buttonNewUser, buttonHelp;
     private ArrayList<String> arrayListUsers = new ArrayList<>();
     private ArrayAdapter<String> arrayAdapter;
     private ListView lvUsers;
@@ -44,6 +44,7 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
 
     public void init(){
         buttonNewUser       = (Button)          findViewById(R.id.button_newUser);
+        buttonHelp          = (Button)          findViewById(R.id.button_help_user);
         lvUsers             = (ListView)        findViewById(R.id.lvUsers);
         lvUsers.setOnItemClickListener(this);
         lvUsers.setOnItemLongClickListener(this);
@@ -58,6 +59,13 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
             }
         });
 
+        buttonHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(UsersActivity.this,
+                        getApplicationContext().getString(R.string.help_user_delete), Toast.LENGTH_LONG).show();
+            }
+        });
 
         arrayAdapter = new ArrayAdapter<String>(
                 this,
@@ -87,7 +95,7 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
         Log.d("User Clicked", username);
 
         Toast.makeText(UsersActivity.this,
-                "Gebruiker: " + username + " geselecteerd!", Toast.LENGTH_SHORT).show();
+                getApplicationContext().getString(R.string.user) + username + " "+ getApplicationContext().getString(R.string.selected) + "!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -107,13 +115,13 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(UsersActivity.this);
 
                 // set title
-                alertDialogBuilder.setTitle("Delete user");
+                alertDialogBuilder.setTitle(getApplicationContext().getString(R.string.delete)  + " " +  username);
 
                 // set dialog message
                 alertDialogBuilder
-                        .setMessage("Click yes to delete user "+ username)
+                        .setMessage(getApplicationContext().getString(R.string.select_yes_to ) + " " + username + " " + getApplicationContext().getString(R.string.to_delete))
                         .setCancelable(false)
-                        .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getApplicationContext().getString(R.string.yes),new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
                                 // if this button is clicked, close
                                 // current activity
@@ -121,7 +129,7 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
                                 deleteUser(username);
                             }
                         })
-                        .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getApplicationContext().getString(R.string.no),new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
                                 // if this button is clicked, just close
                                 // the dialog box and do nothing
@@ -162,8 +170,9 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
                     RealmResults<Highscore> highscores = realm.where(Highscore.class).equalTo("player", username).findAll();
                     highscores.deleteAllFromRealm();
 
+
                     Toast.makeText(UsersActivity.this,
-                            "Gebruiker: " + username + " verwijderd!", Toast.LENGTH_SHORT).show();
+                            getApplicationContext().getString(R.string.cUser)  + " " +  username + " " + getApplicationContext().getString(R.string.deleted) + "!", Toast.LENGTH_SHORT).show();
                 }
             });
             refreshData();
