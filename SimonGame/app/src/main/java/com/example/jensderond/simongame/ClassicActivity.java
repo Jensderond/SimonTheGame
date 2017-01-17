@@ -15,7 +15,7 @@ import com.github.zagum.switchicon.SwitchIconView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayerLoadCompleteListener, Score, Game {
+public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayerLoadCompleteListener, Score {
     public Button _blue, _yellow, _red, _green, btnStart;
     private SoundPlayer mSoundPlayer;
     private Realm realm;

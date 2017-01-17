@@ -88,7 +88,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                 for (int i = 0; i < seqLevel; i++) {
                     addToSequence();
                 }
-                //level en counter op 0 zetten #new game
+                //level op 1 en counter op 0 zetten #new game
                 seqCount = 1;
                 for (int i = 0; i < sequence.size(); i++) {
                     Log.d("", String.valueOf(sequence.get(i)));
@@ -152,6 +152,16 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
             case PLAYSEQ:
                 Log.d("state", "PLAY");
 //                hier een leuke timer die 5 seconden telt speel je niet ben je af.
+                //added
+                new CountDownTimer(5000, 5000) {
+                    public void onTick(long millisecCounter) {
+                    }
+                    public void onFinish() {
+                        stateLost();
+                        checkState();
+                    }
+                }.start();
+
                 break;
 
             // LOSING STATE
