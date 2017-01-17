@@ -31,6 +31,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
     private int score = 0;
     private int count = 0;
     private CountDownTimer timeouttimer = null;
+    private boolean isrunning = false;
     private State state;
     private CountDownTimer timer = null;
 
@@ -116,12 +117,11 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                             checkState();
                         }
                     }.start();
-                }
-                else {
+                } else {
                     Log.d("state", "SHOW");
                     try {
                         // The pattern step just started, turn the light on
-
+                       setAllDark();
                         if (mPatternStepStartTimeMillis == 0 && seqCount - 1 < sequence.size()) {
                             mPatternStepStartTimeMillis = System.currentTimeMillis();
 
@@ -139,9 +139,9 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                             if (seqCount - 1 == sequence.size()) {
                                 seqCount = 1;
                                 count = 0;
+                                setAllDark();
                                 statePlay();
                                 cd.enableButtons();
-                                checkState();
                             }
                             checkState();
                         }
@@ -155,8 +155,8 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
             case PLAYSEQ:
                 Log.d("state", "PLAY");
 //                hier een leuke timer die 5 seconden telt speel je niet ben je af.
-          startTimeout(5000);
-                
+                startTimeout(5000);
+
                 break;
 
             // LOSING STATE
@@ -182,8 +182,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                 break;
             case PLAYING:
                 Log.d("state", "Playing");
-
-                if (key != sequence.get(seqCount -1)) {
+                if (key != sequence.get(seqCount - 1)) {
                     cd.saveHighscore(getScore() - 1);
                     stateLost();
                     seqLevel = 1;
@@ -212,7 +211,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
         }
     }
 
-    private void addToSequence(){
+    private void addToSequence() {
         Random getal = new Random();
         sequence.add((getal.nextInt(4) + 1));
     }
@@ -263,33 +262,44 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
     }
 
     @Override
-    public int getScore(){
+    public int getScore() {
         this.score = seqLevel;
         return score;
     }
 
     @Override
-    public State getState(){
+    public State getState() {
         return state;
     }
 
     private void startTimeout(int timeout) {
 
-        timeouttimer = new CountDownTimer(timeout,500) {
-            public void onTick(long millisUntilFinished) {}
+        timeouttimer = new CountDownTimer(timeout, 500) {
+            public void onTick(long millisUntilFinished) {
+                isrunning = true;
+            }
+
             public void onFinish() {
+                isrunning = false;
                 stateLost();
                 checkState();
             }
         }.start();
     }
 
-    //
+
     private void stopTimeout() {
 
-        if( timeouttimer != null ) {
+        if (isrunning = true) {
             timeouttimer.cancel();
             timeouttimer = null;
+            isrunning = false;
+        }
+    }
+
+    private void setAllDark() {
+        for (int i = 1; i < 5; i++) {
+            cd.setDarkColor(i);
         }
     }
 }
