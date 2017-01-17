@@ -6,6 +6,7 @@
     <string name="username">Gebruikersnaam</string>
     <string name="gender">Geslacht</string>
     <string name="score">Score:</string>
+    <string name="highscores">Highscores</string>
     <string name="male">Man</string>
     <string name="female">Pussy</string>
     <string name="error_fill_username">De gebruikersnaam is leeg.</string>

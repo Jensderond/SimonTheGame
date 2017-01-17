@@ -6,4 +6,5 @@ package com.example.jensderond.simongame;
 
 public interface Score {
     void displayScore(int score);
+    void saveHighscore(int score);
 }

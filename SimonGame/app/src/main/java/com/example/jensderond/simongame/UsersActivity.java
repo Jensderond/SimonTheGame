@@ -1,11 +1,13 @@
 package com.example.jensderond.simongame;
 
 import android.app.Activity;
-import android.app.IntentService;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,18 +16,17 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import io.realm.exceptions.RealmException;
 
 /**
  * Created by jensderond on 16/01/2017.
  */
 
-public class UsersActivity extends Activity implements AdapterView.OnItemClickListener {
+public class UsersActivity extends Activity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     private Realm realm;
     private Button buttonNewUser;
     private ArrayList<String> arrayListUsers = new ArrayList<>();
@@ -45,6 +46,7 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
         buttonNewUser       = (Button)          findViewById(R.id.button_newUser);
         lvUsers             = (ListView)        findViewById(R.id.lvUsers);
         lvUsers.setOnItemClickListener(this);
+        lvUsers.setOnItemLongClickListener(this);
         sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
         buttonNewUser.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +58,7 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
             }
         });
 
+
         arrayAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
@@ -63,29 +66,14 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
 
         realm = Realm.getDefaultInstance();
 
-        RealmResults<Player> result = realm.where(Player.class).findAll();
-        if ( result != null && result.size() > 0) {
-            for (int i = 0; i < result.size(); i++) {
-                Log.d("Player name", result.get(i).getName());
-                arrayListUsers.add(result.get(i).getName());
-            }
-        }
-        lvUsers.setAdapter(arrayAdapter);
-        arrayAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        arrayAdapter.notifyDataSetChanged();
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        arrayAdapter.notifyDataSetChanged();
+        refreshData();
     }
 
     @Override
@@ -102,5 +90,102 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
                 "Gebruiker: " + username + " geselecteerd!", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+        final String username = ((TextView) view).getText().toString();
+        new CountDownTimer(500, 500) {
+
+            public void onTick(long millisUntilFinished) {
+                //here you can have your logic to set text to edittext
+                Log.d("Timer", String.valueOf(millisUntilFinished));
+            }
+
+            public void onFinish() {
+
+                Log.d("Timer", "finished");
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(UsersActivity.this);
+
+                // set title
+                alertDialogBuilder.setTitle("Delete user");
+
+                // set dialog message
+                alertDialogBuilder
+                        .setMessage("Click yes to delete user "+ username)
+                        .setCancelable(false)
+                        .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                // if this button is clicked, close
+                                // current activity
+                                Log.d("Delete user", username);
+                                deleteUser(username);
+                            }
+                        })
+                        .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                // if this button is clicked, just close
+                                // the dialog box and do nothing
+                                Log.d("Cancel delete user", username);
+                                dialog.cancel();
+                            }
+                        });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+            }
+
+        }.start();
+        return true;
+    }
+
+    public boolean deleteUser(final String username){
+        try {
+            String cur_user = sharedPref.getString("cur_user", "");
+            if(cur_user.equals(username)){
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("cur_user", "");
+                editor.apply();
+            }
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+
+                    //DELETE PLAYER
+                    RealmResults<Player> players = realm.where(Player.class).equalTo("name", username).findAll();
+                    players.deleteAllFromRealm();
+
+                    //DELETE HIGHSCORES
+                    RealmResults<Highscore> highscores = realm.where(Highscore.class).equalTo("player", username).findAll();
+                    highscores.deleteAllFromRealm();
+
+                    Toast.makeText(UsersActivity.this,
+                            "Gebruiker: " + username + " verwijderd!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            refreshData();
+            return true;
+        }
+        catch (RealmException e){
+            Log.d("RealmException", e.getMessage());
+            return false;
+        }
+    }
+
+    public void refreshData(){
+
+        RealmResults<Player> result = realm.where(Player.class).findAll();
+        arrayListUsers.clear();
+        if ( result != null && result.size() > 0) {
+            for (int i = 0; i < result.size(); i++) {
+                Log.d("Player name", result.get(i).getName());
+                arrayListUsers.add(result.get(i).getName());
+            }
+        }
+        lvUsers.setAdapter(arrayAdapter);
+        arrayAdapter.notifyDataSetChanged();
+    }
 }

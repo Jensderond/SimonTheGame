@@ -15,7 +15,7 @@ import io.realm.RealmResults;
 public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoadCompleteListener {
 
     private Realm realm;
-    private Button instructionsButton, aboutusButton, classicbutton, reverseButton, chooseButton;
+    private Button instructionsButton, aboutusButton, classicbutton, reverseButton, chooseButton, highscoreButton;
     private SoundPlayer mSoundPlayer;
     private SharedPreferences sharedPref;
     private String cur_user;
@@ -35,6 +35,7 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
         instructionsButton          = (Button) findViewById(R.id.button_instructions);
         aboutusButton               = (Button) findViewById(R.id.button_about_us);
         chooseButton                = (Button) findViewById(R.id.button_select_user);
+        highscoreButton             = (Button) findViewById(R.id.button_highscores);
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .deleteRealmIfMigrationNeeded()
@@ -110,6 +111,13 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
             public void onClick(View v) {
                 mSoundPlayer.playSound(SoundPlayer.BLUE_TONE);
                 Intent intent = new Intent(getApplicationContext(), UsersActivity.class);
+                startActivity(intent);
+            }
+        });
+        highscoreButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mSoundPlayer.playSound(SoundPlayer.BLUE_TONE);
+                Intent intent = new Intent(getApplicationContext(), HigscoreActivity.class);
                 startActivity(intent);
             }
         });

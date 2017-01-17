@@ -20,6 +20,7 @@
         <activity android:name=".ClassicActivity"></activity>
         <activity android:name=".UsersActivity"></activity>
         <activity android:name=".NewUserActivity"></activity>
+        <activity android:name=".HigscoreActivity"></activity>
     </application>
 
 </manifest>

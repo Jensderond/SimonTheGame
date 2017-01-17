@@ -56,21 +56,14 @@ public class NewUserActivity extends Activity {
 
 
                 RealmResults<Player> result = realm.where(Player.class).equalTo("name", username.getText().toString()).findAll();
-                if (result.isEmpty() && username.equals("") && checked.isChecked()) {
+                if (result.isEmpty() && !username.equals("") && checked.isChecked()) {
 
-                    realm.beginTransaction();
-
-                    int nextID = 1;
-                    try {
-                        nextID = (int) (realm.where(Player.class).max("id").longValue() + 1);
-                    } catch (NullPointerException e){
-                        Log.d("Nullpointer: ",e.getMessage());
-                    }
-                    Player player = realm.createObject(Player.class);
-                    player.setID(nextID);
+                    Player player = new Player();
                     player.setName(username.getText().toString());
                     player.setGender(checked.getText().toString());
 
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(player);
                     realm.commitTransaction();
 
                     SharedPreferences.Editor editor = sharedPref.edit();

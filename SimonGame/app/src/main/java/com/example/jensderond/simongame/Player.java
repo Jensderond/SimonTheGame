@@ -1,30 +1,23 @@
 package com.example.jensderond.simongame;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Created by jensderond on 10/01/2017.
  */
 
 public class Player extends RealmObject {
-    private int id;
+    @PrimaryKey @Required
     private String name;
     private String gender;
 
     public Player(){}
 
-    public Player(int id, String name, String gender){
-        this.id = id;
+    public Player(String name, String gender){
         this.setName(name);
         this.setGender(gender);
-    }
-
-    public void setID(int id){
-        this.id = id;
-    }
-
-    public int getID() {
-        return id;
     }
 
     public String getName() {

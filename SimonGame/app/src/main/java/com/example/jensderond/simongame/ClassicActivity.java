@@ -3,7 +3,6 @@ package com.example.jensderond.simongame;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import com.github.zagum.switchicon.SwitchIconView;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayerLoadCompleteListener, Score, Game {
@@ -53,9 +51,15 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         cur_user = sharedPref.getString("cur_user", "");
         play_audio = sharedPref.getString("play_audio", "");
+        if (play_audio.equals("")){
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("play_audio", "true");
+            editor.apply();
+        }
         if(play_audio.equals("true")){
             soundSwitch.setIconEnabled(true, true);
         }
+
 
         textViewPlayerName.setText(cur_user);
         displayScore(0);
@@ -242,5 +246,24 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
     @Override
     public void displayScore(int score) {
         textViewScore.setText(String.valueOf(score));
+    }
+
+    @Override
+    public void saveHighscore(int score){
+
+        int highestScore = 0;
+        try {
+            highestScore = (int) (realm.where(Highscore.class).equalTo("player", cur_user).max("score"));
+        } catch (NullPointerException e){
+            Log.d("Nullpointer: ",e.getMessage());
+        }
+        if (highestScore < score) {
+            Highscore high = new Highscore(score,cur_user);
+
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(high);
+            realm.commitTransaction();
+            Log.d("Highscore saved", String.valueOf(high.getScore()));
+        }
     }
 }

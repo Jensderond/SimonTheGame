@@ -157,7 +157,6 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
             // LOSING STATE
             case LOST:
                 Log.d("state", "LOST");
-
                 Toast.makeText(cd,
                         "Helaas verloren!", Toast.LENGTH_SHORT).show();
                 stateIdle();
@@ -179,6 +178,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
             case PLAYING:
                 Log.d("state", "Playing");
                 if (key != sequence.get(seqCount -1)) {
+                    cd.saveHighscore(getScore() - 1);
                     stateLost();
                     seqLevel = 1;
                     seqCount = 1;
