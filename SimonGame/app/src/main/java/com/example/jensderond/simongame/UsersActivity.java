@@ -37,36 +37,13 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users);
 
-        buttonNewUser       = (Button)          findViewById(R.id.button_newUser);
-        lvUsers             = (ListView)        findViewById(R.id.lvUsers);
-        lvUsers.setOnItemClickListener(this);
-
         init();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        arrayAdapter.notifyDataSetChanged();
-    }
-
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-        String username = ((TextView) view).getText().toString();
-
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("cur_user", username);
-        editor.apply();
-        Log.d("User Clicked", username);
-
-        Toast.makeText(UsersActivity.this,
-                "Gebruiker: " + username + " geselecteerd!", Toast.LENGTH_SHORT).show();
-    }
-
     public void init(){
+        buttonNewUser       = (Button)          findViewById(R.id.button_newUser);
+        lvUsers             = (ListView)        findViewById(R.id.lvUsers);
+        lvUsers.setOnItemClickListener(this);
         sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
         buttonNewUser.setOnClickListener(new View.OnClickListener() {
@@ -96,4 +73,28 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
         lvUsers.setAdapter(arrayAdapter);
         arrayAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        arrayAdapter.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+        String username = ((TextView) view).getText().toString();
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("cur_user", username);
+        editor.apply();
+        Log.d("User Clicked", username);
+
+        Toast.makeText(UsersActivity.this,
+                "Gebruiker: " + username + " geselecteerd!", Toast.LENGTH_SHORT).show();
+    }
+
+
 }

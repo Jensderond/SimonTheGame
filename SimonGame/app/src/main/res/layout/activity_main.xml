@@ -18,18 +18,24 @@
         android:id="@+id/tekstholder">
 
         <TextView
-            android:text="Playername"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/txtViewPlayerName"
             android:layout_weight="1" />
 
         <TextView
-            android:text="Score : XX"
+            android:text="@string/score"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/Score"
+            android:id="@+id/txtViewScore"
             android:gravity="right"
+            android:layout_weight="1" />
+        <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/txtViewRealScore"
+            android:gravity="end"
             android:layout_weight="1" />
     </LinearLayout>
 

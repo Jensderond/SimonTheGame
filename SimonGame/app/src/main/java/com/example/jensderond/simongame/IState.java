@@ -6,11 +6,15 @@ package com.example.jensderond.simongame;
 
 public interface IState {
 
-    public void stateIdle();
-    public void stateStart();
-    public void stateShow();
-    public void statePlay();
-    public void stateLost();
-    public void stateWinner();
-    public void sequenceHandler(int key);
+    void stateIdle();
+    int getScore();
+    State getState();
+    void stateStart();
+    void stateShow();
+    void statePlay();
+    void stateLost();
+    void stateWinner();
+    void statePlaying();
+    void sequenceHandler(int key);
+
 }

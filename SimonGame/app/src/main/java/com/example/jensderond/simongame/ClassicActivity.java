@@ -14,12 +14,12 @@ import android.widget.TextView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayerLoadCompleteListener {
+public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayerLoadCompleteListener, Score {
     public Button _blue, _yellow, _red, _green, btnStart;
     private SoundPlayer mSoundPlayer;
     private Realm realm;
     private SharedPreferences sharedPref;
-    private TextView textViewPlayerName;
+    private TextView textViewPlayerName, textViewScore;
     private String cur_user;
     private SimonSequence seq;
     private static final int YELLOW = 3, RED = 2, BLUE = 4, GREEN = 1;
@@ -28,6 +28,11 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        init();
+    }
+
+    public void init(){
         SoundPlayer.mContext = getApplicationContext();
 
         _blue = (Button) findViewById(R.id.buttonBlue);
@@ -36,6 +41,7 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         _yellow = (Button) findViewById(R.id.buttonYellow);
         btnStart = (Button) findViewById(R.id.btnStart);
         textViewPlayerName = (TextView) findViewById(R.id.txtViewPlayerName);
+        textViewScore = (TextView) findViewById(R.id.txtViewRealScore);
 
 
         sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
@@ -64,26 +70,33 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         super.onResume();
     }
 
-
-    public void setLightColor(int color) {
+    public void setLightColor(int color, boolean audio) {
         if (color == GREEN) {
             _green.setBackgroundColor(getResources().getColor(R.color.light_green, null));
-            mSoundPlayer.playSound(SoundPlayer.GREEN_TONE);
+            if(audio) {
+                mSoundPlayer.playSound(SoundPlayer.GREEN_TONE);
+            }
             Log.d("Color", String.valueOf(color));
         }
-        if (color == RED) {
+        else if (color == RED) {
             _red.setBackgroundColor(getResources().getColor(R.color.light_red, null));
-            mSoundPlayer.playSound(SoundPlayer.RED_TONE);
+            if(audio) {
+                mSoundPlayer.playSound(SoundPlayer.RED_TONE);
+            }
             Log.d("Color", String.valueOf(color));
         }
-        if (color == YELLOW) {
+        else if (color == YELLOW) {
             _yellow.setBackgroundColor(getResources().getColor(R.color.light_yellow, null));
-            mSoundPlayer.playSound(SoundPlayer.YELLOW_TONE);
+            if(audio) {
+                mSoundPlayer.playSound(SoundPlayer.YELLOW_TONE);
+            }
             Log.d("Color", String.valueOf(color));
         }
-        if (color == BLUE) {
+        else if (color == BLUE) {
             _blue.setBackgroundColor(getResources().getColor(R.color.light_blue, null));
-            mSoundPlayer.playSound(SoundPlayer.BLUE_TONE);
+            if(audio) {
+                mSoundPlayer.playSound(SoundPlayer.BLUE_TONE);
+            }
             Log.d("Color", String.valueOf(color));
         }
     }
@@ -113,7 +126,8 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        setLightColor(BLUE);
+                        setLightColor(BLUE, true);
+                        seq.sequenceHandler(BLUE);
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
                         setDarkColor(BLUE);
@@ -127,7 +141,8 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        setLightColor(RED);
+                        setLightColor(RED, true);
+                        seq.sequenceHandler(RED);
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
                         setDarkColor(RED);
@@ -141,7 +156,8 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        setLightColor(GREEN);
+                        setLightColor(GREEN, true);
+                        seq.sequenceHandler(GREEN);
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
                         setDarkColor(GREEN);
@@ -155,7 +171,8 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        setLightColor(YELLOW);
+                        setLightColor(YELLOW, true);
+                        seq.sequenceHandler(YELLOW);
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
                         setDarkColor(YELLOW);
@@ -171,7 +188,7 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
                     case MotionEvent.ACTION_DOWN:
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
-                        seq.newGame(10);
+                        seq.newGame();
                         return true; // if you want to handle the touch event
                 }
                 return false;
@@ -182,5 +199,10 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
     @Override
     public void OnAudioLoadComplete() {
         //Do something
+    }
+
+    @Override
+    public void displayScore(int score) {
+        textViewScore.setText(String.valueOf(score));
     }
 }
