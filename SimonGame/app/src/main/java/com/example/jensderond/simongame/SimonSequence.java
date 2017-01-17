@@ -296,7 +296,6 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
         }.start();
     }
 
-
     private void stopTimeout() {
 
         if (isrunning && timeouttimer != null) {
