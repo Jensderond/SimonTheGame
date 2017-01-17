@@ -95,7 +95,7 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
         Log.d("User Clicked", username);
 
         Toast.makeText(UsersActivity.this,
-                getApplicationContext().getString(R.string.user) + username + " "+ getApplicationContext().getString(R.string.selected) + "!", Toast.LENGTH_SHORT).show();
+                getApplicationContext().getString(R.string.cUser) + " " + username + " " + getApplicationContext().getString(R.string.selected) + "!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
