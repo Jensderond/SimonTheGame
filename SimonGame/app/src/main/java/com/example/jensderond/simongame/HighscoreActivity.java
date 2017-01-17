@@ -20,10 +20,11 @@ import io.realm.RealmResults;
  * Created by jensderond on 17/01/2017.
  */
 
-public class HigscoreActivity extends Activity {
+public class HighscoreActivity extends Activity {
     private Realm realm;
-    private ArrayList<String> arrayListHighscores = new ArrayList<>();
+    private ArrayList<Highscore> arrayListHighscores = new ArrayList<>();
     private ArrayAdapter<String> arrayAdapter;
+    private HighscoreListAdapter highscoreListAdapter;
     private ListView lvHighscores;
 
 
@@ -36,21 +37,21 @@ public class HigscoreActivity extends Activity {
 
     public void init(){
         lvHighscores        = (ListView)        findViewById(R.id.highscoresListView);
-
-        arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                arrayListHighscores );
-
         realm = Realm.getDefaultInstance();
-
+        refreshData();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        refreshData();
+    }
+
+    public void refreshDataView(ArrayList<Highscore> highscores) {
+
+        highscoreListAdapter = new HighscoreListAdapter(this, highscores);
+        lvHighscores.setAdapter(highscoreListAdapter);
+        highscoreListAdapter.notifyDataSetChanged();
     }
 
     public void refreshData(){
@@ -61,10 +62,9 @@ public class HigscoreActivity extends Activity {
             for (int i = 0; i < result.size(); i++) {
                 Log.d("Player name", result.get(i).getPlayer());
                 Log.d("Highscore", String.valueOf(result.get(i).getScore()));
-                arrayListHighscores.add(result.get(i).getPlayer());
+                arrayListHighscores.add(result.get(i));
             }
         }
-        lvHighscores.setAdapter(arrayAdapter);
-        arrayAdapter.notifyDataSetChanged();
+        refreshDataView(arrayListHighscores);
     }
 }

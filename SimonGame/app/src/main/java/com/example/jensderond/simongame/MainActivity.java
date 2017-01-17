@@ -117,7 +117,7 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
         highscoreButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mSoundPlayer.playSound(SoundPlayer.BLUE_TONE);
-                Intent intent = new Intent(getApplicationContext(), HigscoreActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HighscoreActivity.class);
                 startActivity(intent);
             }
         });
