@@ -330,6 +330,17 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
             cd.setDarkColor(i);
         }
     }
+
+    public void destroyGame(){
+        seqLevel = 1;
+        seqCount = 1;
+        sequence.clear();
+        score = 0;
+        stopTimeout();
+        Log.d("Game destroyed","clear");
+        stateIdle();
+        checkState();
+    }
 }
 
 

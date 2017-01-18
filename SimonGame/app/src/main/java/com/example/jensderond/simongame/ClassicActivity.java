@@ -92,6 +92,12 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         super.onResume();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        seq.destroyGame();
+    }
+
     public void setLightColor(int color, boolean audio) {
         play_audio = sharedPref.getString("play_audio", "");
         if (play_audio.equals("false")) {

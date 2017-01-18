@@ -70,7 +70,6 @@ public class NewUserActivity extends Activity {
                         player.setGender("other");
                     }
 
-
                     realm.beginTransaction();
                     realm.copyToRealmOrUpdate(player);
                     realm.commitTransaction();
