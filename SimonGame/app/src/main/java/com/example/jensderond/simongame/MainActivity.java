@@ -68,6 +68,11 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
         curUsername = (TextView) findViewById(R.id.display_user_name);
         versionTextView.setText(getApplicationContext().getString(R.string.version) + VERSION);
 
+        /**
+         * Initialize the Database
+         * this can now be used in every class by calling:
+         * Realm realm = Realm.getDefaultInstance();
+         */
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .deleteRealmIfMigrationNeeded()
@@ -160,7 +165,7 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
     }
 
     /**
-     * This must be implemented for the soundplayer to call back that the audio files are loaded.
+     * This must be implemented for the SoundPlayer to call back that the audio files are loaded.
      */
     @Override
     public void OnAudioLoadComplete() {

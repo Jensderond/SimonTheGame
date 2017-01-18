@@ -11,10 +11,6 @@ import android.media.SoundPool;
 import java.util.ArrayList;
 
 public class SoundPlayer implements SoundPool.OnLoadCompleteListener {
-    public interface SoundPlayerLoadCompleteListener {
-        public void OnAudioLoadComplete();
-    }
-
     public static final int BLUE_TONE = 0;
     public static final int RED_TONE = 1;
     public static final int GREEN_TONE = 2;
@@ -31,6 +27,16 @@ public class SoundPlayer implements SoundPool.OnLoadCompleteListener {
 
     private SoundPlayerLoadCompleteListener mLoadCompleteListener;
 
+    /**
+     * Create in class interface for OnAudioLoadComplete
+     */
+    public interface SoundPlayerLoadCompleteListener {
+        public void OnAudioLoadComplete();
+    }
+
+    /**
+     * This gets the audio focus
+     */
     final AudioManager.OnAudioFocusChangeListener afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
@@ -44,6 +50,9 @@ public class SoundPlayer implements SoundPool.OnLoadCompleteListener {
         }
     };
 
+    /**
+     * Constructor of soundplayer
+     */
     public SoundPlayer() {
         mSp = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         mTrackList = new ArrayList<Integer>();
@@ -53,6 +62,13 @@ public class SoundPlayer implements SoundPool.OnLoadCompleteListener {
         initSoundData();
     }
 
+    /**
+     * This function is used to call back
+     *
+     * @param soundPool
+     * @param sampleId
+     * @param status
+     */
     @Override
     public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
         mSoundsLoadedCount++;
@@ -64,6 +80,9 @@ public class SoundPlayer implements SoundPool.OnLoadCompleteListener {
         }
     }
 
+    /**
+     * This function initializes all sounds
+     */
     private void initSoundData() {
         if (mContext != null) {
             mTrackList.add(mSp.load(mContext, R.raw.note1, 0));
@@ -73,9 +92,14 @@ public class SoundPlayer implements SoundPool.OnLoadCompleteListener {
         }
     }
 
+    /**
+     * This function is used to play a sound
+     *
+     * @param soundId
+     */
     public void playSound(int soundId) {
         if (soundId < mTrackList.size()) {
-            am = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+            am = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
             int result = am.requestAudioFocus(afChangeListener,
                     // use the music stream
                     AudioManager.STREAM_MUSIC,
@@ -88,6 +112,11 @@ public class SoundPlayer implements SoundPool.OnLoadCompleteListener {
         }
     }
 
+    /**
+     * Sets the onLoadCompleteListener
+     *
+     * @param listener
+     */
     public void setOnLoadCompleteListener(SoundPlayerLoadCompleteListener listener) {
         mLoadCompleteListener = listener;
     }

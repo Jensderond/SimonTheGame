@@ -20,32 +20,62 @@ public class Player extends RealmObject {
     private String name;
     private String gender;
 
+    /**
+     * Empty Constructor, Necessary for RealmObject
+     */
     public Player() {
     }
 
+    /**
+     * This is the constructor of the player
+     *
+     * @param name
+     * @param gender
+     */
     public Player(String name, String gender) {
         this.setName(name);
         this.setGender(gender);
     }
 
+    /**
+     * This returns the players name
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * This sets the players name
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * This returns the players gender
+     *
+     * @return gender
+     */
     public String getGender() {
         return gender;
     }
 
+    /**
+     * This sets the players gender
+     *
+     * @param gender
+     */
     public void setGender(String gender) {
         this.gender = gender;
     }
 
     /**
      * This function returns a int profile image
+     *
      * @return
      */
     public int getImage() {

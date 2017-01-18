@@ -119,7 +119,8 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
     }
 
     /**
-     * onStop and destroy your running sequence of your game
+     * If the player leaves the Activity this calls the game destroyGame function
+     * This will save the highscore if needed and releases all scores and timers running.
      */
     @Override
     protected void onStop() {
@@ -128,7 +129,7 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
     }
 
     /**
-     * highlighting the buttons with sounds
+     * This function can be used to make a button Light
      *
      * @param color
      * @param audio
@@ -167,8 +168,7 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
     }
 
     /**
-     * function to set the darkcolor of the buttons again after highlighting them
-     *
+     * This function can be used to make a button Dark
      * @param color
      */
     public void setDarkColor(int color) {
@@ -191,7 +191,7 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
     }
 
     /**
-     * touchhandlers for the buttons
+     * This function holds all the setOnTouchListeners
      */
     public void setOnTouchListeners() {
         _blue.setOnTouchListener(new View.OnTouchListener() {
@@ -305,8 +305,7 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
     }
 
     /**
-     * this function displays your score in the assigned textview
-     *
+     * This function can be called to update the score.
      * @param score
      */
     @Override
