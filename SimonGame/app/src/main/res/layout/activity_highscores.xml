@@ -15,6 +15,7 @@
     <ListView
         android:id="@+id/highscoresListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:padding="@dimen/textview_margin_top"/>
 
 </LinearLayout>

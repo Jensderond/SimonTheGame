@@ -19,7 +19,6 @@ import io.realm.Sort;
 public class HighscoreActivity extends Activity {
     private Realm realm;
     private ArrayList<Highscore> arrayListHighscores = new ArrayList<>();
-    private ArrayAdapter<String> arrayAdapter;
     private HighscoreListAdapter highscoreListAdapter;
     private ListView lvHighscores;
 

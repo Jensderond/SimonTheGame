@@ -220,7 +220,9 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                             //naar het volgende level
                             seqLevel++;
                             seqCount = 1;
-                            Collections.reverse(sequence);
+                            if(gameMode == GameMode.TWISTED) {
+                                Collections.reverse(sequence);
+                            }
                             addToSequence();
                             cd.displayScore(seqLevel - 1);
                             stateShow();

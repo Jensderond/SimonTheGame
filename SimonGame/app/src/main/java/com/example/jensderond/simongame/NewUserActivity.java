@@ -60,7 +60,16 @@ public class NewUserActivity extends Activity {
 
                     Player player = new Player();
                     player.setName(username.getText().toString());
-                    player.setGender(checked.getText().toString());
+                    if (checked.getText().toString().equals("Man")){
+                        player.setGender("male");
+                    }
+                    if (checked.getText().toString().equals("Vrouw")){
+                        player.setGender("female");
+                    }
+                    if (checked.getText().toString().equals("Anders")){
+                        player.setGender("other");
+                    }
+
 
                     realm.beginTransaction();
                     realm.copyToRealmOrUpdate(player);

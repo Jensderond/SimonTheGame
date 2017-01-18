@@ -19,7 +19,8 @@
     <string name="score">Score:</string>
     <string name="highscores">Highscores</string>
     <string name="male">Man</string>
-    <string name="female">Pussy</string>
+    <string name="female">Vrouw</string>
+    <string name="other">Anders</string>
     <string name="error_fill_username">De gebruikersnaam is leeg.</string>
     <string name="error_fill_username_taken">De gebruikersnaam bestaat al.</string>
     <string name="action_start">Start</string>

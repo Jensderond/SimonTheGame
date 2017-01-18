@@ -29,8 +29,8 @@ import io.realm.exceptions.RealmException;
 public class UsersActivity extends Activity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     private Realm realm;
     private Button buttonNewUser, buttonHelp;
-    private ArrayList<String> arrayListUsers = new ArrayList<>();
-    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<Player> arrayListUsers = new ArrayList<>();
+    private UsersListAdapter usersListAdapter;
     private ListView lvUsers;
     private SharedPreferences sharedPref;
 
@@ -67,15 +67,14 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
             }
         });
 
-        arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                arrayListUsers );
+//        arrayAdapter = new ArrayAdapter<String>(
+//                this,
+//                android.R.layout.simple_list_item_1,
+//                arrayListUsers );
 
         realm = Realm.getDefaultInstance();
 
     }
-
 
     @Override
     protected void onResume() {
@@ -87,7 +86,7 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        String username = ((TextView) view).getText().toString();
+        String username = arrayListUsers.get(i).getName();
 
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("cur_user", username);
@@ -101,7 +100,7 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        final String username = ((TextView) view).getText().toString();
+        final String username = arrayListUsers.get(i).getName();
         new CountDownTimer(500, 500) {
 
             public void onTick(long millisUntilFinished) {
@@ -184,6 +183,13 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
         }
     }
 
+    public void refreshDataView(ArrayList<Player> players) {
+
+        usersListAdapter = new UsersListAdapter(this, players);
+        lvUsers.setAdapter(usersListAdapter);
+        usersListAdapter.notifyDataSetChanged();
+    }
+
     public void refreshData(){
 
         RealmResults<Player> result = realm.where(Player.class).findAll();
@@ -191,10 +197,9 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
         if ( result != null && result.size() > 0) {
             for (int i = 0; i < result.size(); i++) {
                 Log.d("Player name", result.get(i).getName());
-                arrayListUsers.add(result.get(i).getName());
+                arrayListUsers.add(result.get(i));
             }
         }
-        lvUsers.setAdapter(arrayAdapter);
-        arrayAdapter.notifyDataSetChanged();
+        refreshDataView(arrayListUsers);
     }
 }
