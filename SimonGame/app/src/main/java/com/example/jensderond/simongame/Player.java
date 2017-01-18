@@ -40,6 +40,10 @@ public class Player extends RealmObject {
         this.gender = gender;
     }
 
+    /**
+     * This function returns a int profile image
+     * @return
+     */
     public int getImage() {
         int resource = R.mipmap.ic_male1;
         Random random = new Random();

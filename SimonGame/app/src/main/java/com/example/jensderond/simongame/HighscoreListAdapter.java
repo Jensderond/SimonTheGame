@@ -24,7 +24,7 @@ public class HighscoreListAdapter extends ArrayAdapter<Highscore> {
     private Realm realm;
 
     /***
-     * Constructor of the ArrayOverviewAdapter
+     * Constructor of the HighscoreListAdapter
      *
      * @param context
      * @param highscores
@@ -82,7 +82,6 @@ public class HighscoreListAdapter extends ArrayAdapter<Highscore> {
         viewHolder.display_name.setText(highscore.getPlayer());
         viewHolder.display_score.setText(String.valueOf(highscore.getScore()));
 
-//         Return the completed view to render on screen
         return convertView;
     }
 

@@ -37,6 +37,9 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         init();
     }
 
+    /**
+     * This function initializes stuff so the onCreate is nice and clean
+     */
     public void init() {
         Intent intent = getIntent();
         String gm = intent.getStringExtra("GameMode");

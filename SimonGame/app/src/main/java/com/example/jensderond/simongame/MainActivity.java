@@ -25,6 +25,11 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
     private String cur_user;
     private static final String VERSION = " 0.9.6";
 
+    /**
+     * onCreate
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +38,10 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
         init();
     }
 
+    /**
+     * onRestart
+     * This is used to refresh the current player and profile image of current player.
+     */
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -43,6 +52,9 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
         }
     }
 
+    /**
+     * This function initializes stuff so the onCreate is nice and clean
+     */
     public void init() {
         SoundPlayer.mContext = getApplicationContext();
         classicbutton = (Button) findViewById(R.id.button_start);
@@ -76,6 +88,10 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
         setOnClickListeners();
     }
 
+    /**
+     * This function holds all the setOnClickListeners methods
+     * of all the menu buttons
+     */
     public void setOnClickListeners() {
         classicbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -143,6 +159,9 @@ public class MainActivity extends Activity implements SoundPlayer.SoundPlayerLoa
         });
     }
 
+    /**
+     * This must be implemented for the soundplayer to call back that the audio files are loaded.
+     */
     @Override
     public void OnAudioLoadComplete() {
 //        initPattern(); // start playing the pattern once the audio is loaded

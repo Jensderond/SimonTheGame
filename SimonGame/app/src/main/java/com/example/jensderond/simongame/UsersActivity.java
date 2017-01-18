@@ -34,6 +34,10 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
     private ListView lvUsers;
     private SharedPreferences sharedPref;
 
+    /**
+     * onCreate
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,9 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
         init();
     }
 
+    /**
+     * This function initializes stuff so the onCreate is nice and clean
+     */
     public void init(){
         buttonNewUser       = (Button)          findViewById(R.id.button_newUser);
         buttonHelp          = (Button)          findViewById(R.id.button_help_user);
@@ -76,6 +83,9 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
 
     }
 
+    /**
+     * onResume
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -83,6 +93,14 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
         refreshData();
     }
 
+    /**
+     * Used for handling Listview Item Clicks
+     * This switches the current user to the user that was clicked
+     * @param adapterView
+     * @param view
+     * @param i
+     * @param l
+     */
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -97,6 +115,15 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
                 getApplicationContext().getString(R.string.cUser) + " " + username + " " + getApplicationContext().getString(R.string.selected) + "!", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Used for handling Listview Long Item Clicks
+     * This will be used to give the player the option to delete the user that was clicked
+     * @param adapterView
+     * @param view
+     * @param i
+     * @param l
+     * @return
+     */
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -148,6 +175,11 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
         return true;
     }
 
+    /**
+     * Used to delete a user
+     * @param username
+     * @return
+     */
     public boolean deleteUser(final String username){
         try {
             String cur_user = sharedPref.getString("cur_user", "");
@@ -183,6 +215,10 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
         }
     }
 
+    /**
+     * Refreshes the Listview
+     * @param players
+     */
     public void refreshDataView(ArrayList<Player> players) {
 
         usersListAdapter = new UsersListAdapter(this, players);
@@ -190,6 +226,9 @@ public class UsersActivity extends Activity implements AdapterView.OnItemClickLi
         usersListAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Fetches the latest data from the Realm database
+     */
     public void refreshData(){
 
         RealmResults<Player> result = realm.where(Player.class).findAll();
