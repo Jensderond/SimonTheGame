@@ -224,7 +224,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                                 Collections.reverse(sequence);
                             }
                             addToSequence();
-                            cd.displayScore(seqLevel - 1);
+                            cd.displayScore(getScore());
                             stateShow();
 
 
@@ -292,7 +292,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
 
     @Override
     public int getScore() {
-        this.score = seqLevel;
+        this.score = seqLevel - 1;
         return score;
     }
 
@@ -332,6 +332,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
     }
 
     public void destroyGame(){
+        cd.saveHighscore(getScore());
         seqLevel = 1;
         seqCount = 1;
         sequence.clear();
