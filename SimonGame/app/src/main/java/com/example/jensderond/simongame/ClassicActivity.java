@@ -40,10 +40,10 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
     public void init() {
         Intent intent = getIntent();
         String gm = intent.getStringExtra("GameMode");
-        if(gm.equals("Twisted")){
+        if (gm.equals("Twisted")) {
             gameMode = GameMode.TWISTED;
         }
-        if(gm.equals("Classic")){
+        if (gm.equals("Classic")) {
             gameMode = GameMode.CLASSIC;
         }
 
@@ -218,10 +218,9 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
                     case MotionEvent.ACTION_DOWN:
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
-                        if ( gameMode == GameMode.CLASSIC){
+                        if (gameMode == GameMode.CLASSIC) {
                             seq.newGame(GameMode.CLASSIC);
-                        }
-                        else if ( gameMode == GameMode.TWISTED){
+                        } else if (gameMode == GameMode.TWISTED) {
                             seq.newGame(GameMode.TWISTED);
                         }
                         return true; // if you want to handle the touch event

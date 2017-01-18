@@ -25,6 +25,7 @@ public class HighscoreListAdapter extends ArrayAdapter<Highscore> {
 
     /***
      * Constructor of the ArrayOverviewAdapter
+     *
      * @param context
      * @param highscores
      */
@@ -36,14 +37,16 @@ public class HighscoreListAdapter extends ArrayAdapter<Highscore> {
 
     /**
      * returns the size of the arraylist
+     *
      * @return
      */
-    public int getCount(){
+    public int getCount() {
         return highscoresArrayList.size();
     }
 
     /**
      * This function binds the information to the view and returns the view requested
+     *
      * @param position
      * @param convertView
      * @param parent
@@ -64,8 +67,7 @@ public class HighscoreListAdapter extends ArrayAdapter<Highscore> {
             viewHolder.display_score = (TextView) convertView.findViewById(R.id.display_score);
 
             convertView.setTag(viewHolder);
-        }
-        else {
+        } else {
             viewHolder = new ViewHolder();
             viewHolder.display_image = (ImageView) convertView.findViewById(R.id.display_image);
             viewHolder.display_name = (TextView) convertView.findViewById(R.id.display_name);
@@ -75,43 +77,8 @@ public class HighscoreListAdapter extends ArrayAdapter<Highscore> {
 
         Player result = realm.where(Player.class).equalTo("name", highscore.getPlayer()).findFirst();
 
-        int resource = R.mipmap.ic_male1;
-        Random random = new Random();
-        int randomNumber = random.nextInt(5 - 1) + 1;
-        if (result.getGender().equals("Pussy")){
-            switch (randomNumber) {
-                case 1:
-                    resource = R.mipmap.ic_female1;
-                    break;
-                case 2:
-                    resource = R.mipmap.ic_female2;
-                    break;
-                case 3:
-                    resource = R.mipmap.ic_female3;
-                    break;
-                case 4:
-                    resource = R.mipmap.ic_female4;
-                    break;
-            }
-        }
-        else if (result.getGender().equals("male")){
-            switch (randomNumber) {
-                case 1:
-                    resource = R.mipmap.ic_male1;
-                    break;
-                case 2:
-                    resource = R.mipmap.ic_male2;
-                    break;
-                case 3:
-                    resource = R.mipmap.ic_male3;
-                    break;
-                case 4:
-                    resource = R.mipmap.ic_male4;
-                    break;
-            }
-        }
         // Populate the data into the template view using the data object
-        viewHolder.display_image.setImageResource(resource);
+        viewHolder.display_image.setImageResource(result.getImage());
         viewHolder.display_name.setText(highscore.getPlayer());
         viewHolder.display_score.setText(String.valueOf(highscore.getScore()));
 

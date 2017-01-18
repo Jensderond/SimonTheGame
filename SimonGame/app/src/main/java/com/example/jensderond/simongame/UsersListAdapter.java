@@ -25,6 +25,7 @@ public class UsersListAdapter extends ArrayAdapter<Player> {
 
     /***
      * Constructor of the UsersListAdapter
+     *
      * @param context
      * @param players
      */
@@ -36,14 +37,16 @@ public class UsersListAdapter extends ArrayAdapter<Player> {
 
     /**
      * returns the size of the arraylist
+     *
      * @return
      */
-    public int getCount(){
+    public int getCount() {
         return usersArrayList.size();
     }
 
     /**
      * This function binds the information to the view and returns the view requested
+     *
      * @param position
      * @param convertView
      * @param parent
@@ -63,55 +66,14 @@ public class UsersListAdapter extends ArrayAdapter<Player> {
             viewHolder.display_name = (TextView) convertView.findViewById(R.id.display_user_name);
 
             convertView.setTag(viewHolder);
-        }
-        else {
+        } else {
             viewHolder = new ViewHolder();
             viewHolder.display_image = (ImageView) convertView.findViewById(R.id.display_user_image);
             viewHolder.display_name = (TextView) convertView.findViewById(R.id.display_user_name);
         }
 
-
-
-        int resource = R.mipmap.ic_male1;
-        Random random = new Random();
-        int randomNumber = random.nextInt(5 - 1) + 1;
-        if (player.getGender().equals("female")){
-            switch (randomNumber) {
-                case 1:
-                    resource = R.mipmap.ic_female1;
-                    break;
-                case 2:
-                    resource = R.mipmap.ic_female2;
-                    break;
-                case 3:
-                    resource = R.mipmap.ic_female3;
-                    break;
-                case 4:
-                    resource = R.mipmap.ic_female4;
-                    break;
-            }
-        }
-        else if (player.getGender().equals("male")){
-            switch (randomNumber) {
-                case 1:
-                    resource = R.mipmap.ic_male1;
-                    break;
-                case 2:
-                    resource = R.mipmap.ic_male2;
-                    break;
-                case 3:
-                    resource = R.mipmap.ic_male3;
-                    break;
-                case 4:
-                    resource = R.mipmap.ic_male4;
-                    break;
-            }
-        }
-        else if (player.getGender().equals("other")) {
-            resource = R.mipmap.ic_other1;
-        }
         // Populate the data into the template view using the data object
-        viewHolder.display_image.setImageResource(resource);
+        viewHolder.display_image.setImageResource(player.getImage());
         viewHolder.display_name.setText(player.getName());
 
 //         Return the completed view to render on screen
