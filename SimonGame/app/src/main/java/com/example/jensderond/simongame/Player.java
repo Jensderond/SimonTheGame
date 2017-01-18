@@ -10,6 +10,10 @@ import io.realm.annotations.Required;
  * Created by jensderond on 10/01/2017.
  */
 
+
+/**
+ * Realmobject of players Database class
+ */
 public class Player extends RealmObject {
     @PrimaryKey
     @Required

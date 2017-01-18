@@ -9,6 +9,10 @@ import android.os.Bundle;
 
 public class InstructionsActivity extends Activity {
 
+    /**
+     * onCreate
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

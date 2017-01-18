@@ -8,7 +8,7 @@ import android.os.Bundle;
  */
 
 public class AboutUsActivity extends Activity {
-
+//onCreate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

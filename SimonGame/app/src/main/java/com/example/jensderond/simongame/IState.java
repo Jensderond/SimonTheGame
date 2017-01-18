@@ -4,6 +4,9 @@ package com.example.jensderond.simongame;
  * Created by ruben on 16-1-2017.
  */
 
+/**
+ * interface for the states in the game
+ */
 public interface IState {
 
     void stateIdle();

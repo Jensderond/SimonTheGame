@@ -32,6 +32,10 @@ public class NewUserActivity extends Activity {
     private RadioGroup radioGroup;
     private SharedPreferences sharedPref;
 
+    /**
+     * onCreate
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +58,9 @@ public class NewUserActivity extends Activity {
                 int selectedID = radioGroup.getCheckedRadioButtonId();
                 checked = (RadioButton) findViewById(selectedID);
 
-
+/**
+ * get all the users and create new one if needed
+ */
                 RealmResults<Player> result = realm.where(Player.class).equalTo("name", username.getText().toString()).findAll();
                 if (result.isEmpty() && !username.equals("") && checked.isChecked()) {
 
@@ -69,7 +75,9 @@ public class NewUserActivity extends Activity {
                     if (checked.getText().toString().equals("Anders")){
                         player.setGender("other");
                     }
-
+/**
+ * transaction to the database to update a player
+ */
                     realm.beginTransaction();
                     realm.copyToRealmOrUpdate(player);
                     realm.commitTransaction();

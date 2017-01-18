@@ -1,4 +1,5 @@
 package com.example.jensderond.simongame;
+//imports
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +18,9 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayerLoadCompleteListener, Score, Game {
+    /**
+     * definieren benodigdheden
+     */
     public Button _blue, _yellow, _red, _green, btnStart;
     private SoundPlayer mSoundPlayer;
     private Realm realm;
@@ -24,16 +28,24 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
     private TextView textViewPlayerName, textViewScore;
     private String cur_user, play_audio;
     private SimonSequence seq;
+    //de kleuren een bijpassend nummer geven
     private static final int YELLOW = 3, RED = 2, BLUE = 4, GREEN = 1;
     private SwitchIconView soundSwitch;
     private View btnSound;
     private GameMode gameMode;
 
+    /**
+     * oncreate
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+/**
+ * init
+ */
         init();
     }
 
@@ -51,7 +63,9 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         }
 
         SoundPlayer.mContext = getApplicationContext();
-
+/**
+ * inflation of objects
+ */
         _blue = (Button) findViewById(R.id.buttonBlue);
         _red = (Button) findViewById(R.id.buttonRed);
         _green = (Button) findViewById(R.id.buttonGreen);
@@ -65,6 +79,9 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         cur_user = sharedPref.getString("cur_user", "");
         play_audio = sharedPref.getString("play_audio", "");
+        /**
+         * audiohandler switch
+         */
         if (play_audio.equals("")) {
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("play_audio", "true");
@@ -79,8 +96,11 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
 
         mSoundPlayer = new SoundPlayer();
         mSoundPlayer.setOnLoadCompleteListener(this);
-        realm = Realm.getDefaultInstance();
 
+        /**
+         * get database
+         */
+        realm = Realm.getDefaultInstance();
         RealmResults<Player> result = realm.where(Player.class).findAll();
         for (int i = 0; i < result.size(); i++) {
             Log.d("Player name", result.get(i).getName());
@@ -90,17 +110,29 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         seq = new SimonSequence(ClassicActivity.this);
     }
 
+    /**
+     * onResume
+     */
     @Override
     protected void onResume() {
         super.onResume();
     }
 
+    /**
+     * onStop and destroy your running sequence of your game
+     */
     @Override
     protected void onStop() {
         super.onStop();
         seq.destroyGame();
     }
 
+    /**
+     * highlighting the buttons with sounds
+     *
+     * @param color
+     * @param audio
+     */
     public void setLightColor(int color, boolean audio) {
         play_audio = sharedPref.getString("play_audio", "");
         if (play_audio.equals("false")) {
@@ -134,6 +166,11 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         }
     }
 
+    /**
+     * function to set the darkcolor of the buttons again after highlighting them
+     *
+     * @param color
+     */
     public void setDarkColor(int color) {
         if (color == GREEN) {
             _green.setBackgroundColor(getResources().getColor(R.color.dark_green, null));
@@ -153,6 +190,9 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         }
     }
 
+    /**
+     * touchhandlers for the buttons
+     */
     public void setOnTouchListeners() {
         _blue.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -257,16 +297,28 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         });
     }
 
+    /**
+     * This must be implemented for the SoundPlayer to call back that the audio files are loaded.
+     */
     @Override
     public void OnAudioLoadComplete() {
-        //Do something
     }
 
+    /**
+     * this function displays your score in the assigned textview
+     *
+     * @param score
+     */
     @Override
     public void displayScore(int score) {
         textViewScore.setText(String.valueOf(score));
     }
 
+    /**
+     * this function saves your highest current score to the highscorelist
+     *
+     * @param score
+     */
     @Override
     public void saveHighscore(int score) {
 
@@ -287,6 +339,9 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         }
     }
 
+    /**
+     * this function disables all the buttons on the layout during the time that the sequence is playing
+     */
     public void disableButtons() {
         _blue.setEnabled(false);
         _red.setEnabled(false);
@@ -295,6 +350,9 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         btnStart.setEnabled(false);
     }
 
+    /**
+     * this function enables the buttons again so the player can replay the just given sequence
+     */
     public void enableButtons() {
         _blue.setEnabled(true);
         _red.setEnabled(true);

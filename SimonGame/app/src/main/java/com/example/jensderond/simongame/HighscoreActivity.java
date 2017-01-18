@@ -22,7 +22,11 @@ public class HighscoreActivity extends Activity {
     private HighscoreListAdapter highscoreListAdapter;
     private ListView lvHighscores;
 
-
+    /**
+     * onCreate
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,18 +34,29 @@ public class HighscoreActivity extends Activity {
         init();
     }
 
-    public void init(){
-        lvHighscores        = (ListView)        findViewById(R.id.highscoresListView);
+    /**
+     * This function initializes stuff so the onCreate is nice and clean
+     */
+    public void init() {
+        lvHighscores = (ListView) findViewById(R.id.highscoresListView);
         realm = Realm.getDefaultInstance();
         refreshData();
     }
 
+    /**
+     * onResume
+     */
     @Override
     protected void onResume() {
         super.onResume();
 
     }
 
+    /**
+     * this function refreshes the data of the current highscorelist in the view
+     *
+     * @param highscores
+     */
     public void refreshDataView(ArrayList<Highscore> highscores) {
 
         highscoreListAdapter = new HighscoreListAdapter(this, highscores);
@@ -49,11 +64,14 @@ public class HighscoreActivity extends Activity {
         highscoreListAdapter.notifyDataSetChanged();
     }
 
-    public void refreshData(){
+    /**
+     * this function refreshes the players highscore in the database
+     */
+    public void refreshData() {
 
         RealmResults<Highscore> result = realm.where(Highscore.class).findAll().sort("score", Sort.DESCENDING);
         arrayListHighscores.clear();
-        if ( result != null && result.size() > 0) {
+        if (result != null && result.size() > 0) {
             for (int i = 0; i < result.size(); i++) {
                 Log.d("Player name", result.get(i).getPlayer());
                 Log.d("Highscore", String.valueOf(result.get(i).getScore()));

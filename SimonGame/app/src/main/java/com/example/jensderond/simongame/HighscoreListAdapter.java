@@ -74,7 +74,9 @@ public class HighscoreListAdapter extends ArrayAdapter<Highscore> {
             viewHolder.display_score = (TextView) convertView.findViewById(R.id.display_score);
         }
 
-
+/**
+ * get the highest score of a player
+ */
         Player result = realm.where(Player.class).equalTo("name", highscore.getPlayer()).findFirst();
 
         // Populate the data into the template view using the data object

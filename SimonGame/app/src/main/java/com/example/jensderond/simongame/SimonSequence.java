@@ -34,11 +34,22 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
     private GameMode gameMode;
     private CountDownTimer timer = null;
 
+    /**
+     * constructor
+     *
+     * @param context
+     */
     public SimonSequence(ClassicActivity context) {
         this.cd = context;
         stateIdle();
         checkState();
     }
+
+    /**
+     * function for starting a newGame with the check for the appropriate gamemode
+     *
+     * @param gameMode
+     */
 
     public void newGame(GameMode gameMode) {
         if (gameMode == GameMode.CLASSIC) {
@@ -55,11 +66,15 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
         }
     }
 
-    //checken states
+    /**
+     * this function checks what the current state of the game is and calls the funtions accordingly
+     */
     private void checkState() {
         switch (state) {
-            //wanneer je IDLE bent
             case IDLE:
+                /**
+                 * this is the case where a timer starts when you a idle. if youre idle for to long the game will go to attract mode.
+                 */
                 if (!attracting) {
                     Log.d("state", "IDLE");
                     timeouttimer = new CountDownTimer(5000, 500) {
@@ -97,12 +112,13 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                             cd.setLightColor(lightQuadrant, true);
 
                             lastcolor = color;
+                            /**
+                             * callbacktimer
+                             */
                             doInBackground();
                         } else if ((System.currentTimeMillis() - mPatternStepStartTimeMillis) >= timeout) {
-                            // turn the light off
                             cd.setDarkColor(lastcolor);
                             mPatternStepStartTimeMillis = 0;
-                            // if we just completed the last step in the pattern, reset to simply drawing the board
                             seqCount++;
                             if (seqCount - 1 == sequence.size()) {
                                 seqCount = 1;
@@ -118,23 +134,28 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                     }
                 }
                 break;
-            //spel starten
+            /**
+             * case when you start a game, get a new sequence.
+             */
             case START:
                 Log.d("state", "START");
                 resetAllVariables();
-                //nieuwe sequence random in laten laden
                 for (int i = 0; i < seqLevel; i++) {
                     addToSequence();
                 }
                 timeout = 1500;
 
-                //Laat score zien in activity
+                /**
+                 * display current score in your activity
+                 */
                 cd.displayScore(seqLevel - 1);
                 stateShow();
                 checkState();
                 break;
 
-            //speler de nieuwe seq laten zien
+            /**
+             * function where the player is shown the sequence which they have to copy
+             */
             case SHOWSEQ:
                 cd.disableButtons();
                 if (count == 0) {
@@ -161,7 +182,9 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                             int lightQuadrant = sequence.get(seqCount - 1);
 
                             cd.setLightColor(lightQuadrant, true);
-
+                            /**
+                             * callbackfunction
+                             */
                             doInBackground();
                         } else if ((System.currentTimeMillis() - mPatternStepStartTimeMillis) >= timeout) {
                             // turn the light off
@@ -187,15 +210,18 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                     }
                 }
                 break;
-            //player moet de sequence input geven
+            /**
+             * in this case the player has just seen the sequence and has to copy the sequence. A timer starts to see if the player is idle
+             */
             case PLAYSEQ:
                 Log.d("state", "PLAY");
-//                hier een leuke timer die 5 seconden telt speel je niet ben je af.
                 startTimeout(5000);
 
                 break;
 
-            // LOSING STATE
+            /**
+             * You get to this case if you lose. your sequence will be reset
+             */
             case LOST:
                 Log.d("state", "LOST");
                 Toast.makeText(cd,
@@ -206,7 +232,9 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                 stateIdle();
                 checkState();
                 break;
-            // WINNER STATE
+            /**
+             * You get here when you win (level 50) and you get set back to idle and win the game
+             */
             case WINNER:
                 Log.d("state", "WINNER");
                 new CountDownTimer(2500, 500) {
