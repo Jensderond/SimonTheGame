@@ -91,7 +91,7 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
-        android:layout_width="384dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/about_us"
         android:id="@+id/button_about_us"
@@ -112,7 +112,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button_instructions" />
 
     <Button
-        android:layout_width="384dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/highscores"
         android:id="@+id/button_highscores"
@@ -133,7 +133,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button_about_us" />
 
     <Button
-        android:layout_width="384dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/select_user"
         android:id="@+id/button_select_user"
