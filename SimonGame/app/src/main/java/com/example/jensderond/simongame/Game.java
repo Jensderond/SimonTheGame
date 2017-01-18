@@ -8,7 +8,7 @@ package com.example.jensderond.simongame;
 public interface Game {
     void init();
     void setLightColor(int color, boolean audio);
-    void setDarkColor(int colo);
+    void setDarkColor(int color);
     void disableButtons();
     void enableButtons();
     void setOnTouchListeners();

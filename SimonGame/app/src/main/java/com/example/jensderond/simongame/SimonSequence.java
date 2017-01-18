@@ -258,6 +258,8 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                     }
                 }
                 break;
+            case DESTROY:
+                break;
         }
     }
 
@@ -283,6 +285,10 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
 
     public void statePlay() {
         state = State.PLAYSEQ;
+    }
+
+    public void stateDestroy() {
+        state = State.DESTROY;
     }
 
     @Override
@@ -364,9 +370,11 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
         }
     }
 
+
     public void destroyGame() {
         cd.saveHighscore(getScore());
         resetAllVariables();
+        stateDestroy();
         Log.d("Game destroyed", "clear");
     }
 

@@ -5,5 +5,5 @@ package com.example.jensderond.simongame;
  */
 
 public enum State {
-    IDLE, START, PLAYSEQ, LOST, WINNER, SHOWSEQ, PLAYING
+    IDLE, START, PLAYSEQ, LOST, WINNER, SHOWSEQ, PLAYING, DESTROY
 }

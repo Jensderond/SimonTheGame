@@ -13,6 +13,7 @@ public interface IState {
     void stateShow();
     void statePlay();
     void stateLost();
+    void stateDestroy();
     void stateWinner();
     void statePlaying();
     void sequenceHandler(int key);
