@@ -50,7 +50,6 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
         //state van idle naar start zetten
         if (state == State.IDLE) {
             stateStart();
-            Log.d("State", "Start new game");
             checkState();
         }
     }
@@ -61,7 +60,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
             //wanneer je IDLE bent
             case IDLE:
                 if (!attracting) {
-                    Log.d("state", "IDLE");
+                    Log.d("state", "Idle");
                     timeouttimer = new CountDownTimer(5000, 500) {
                         public void onTick(long millisUntilFinished) {
                             isrunning = true;
@@ -120,7 +119,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                 break;
             //spel starten
             case START:
-                Log.d("state", "START");
+                Log.d("state", "Start new game");
                 resetAllVariables();
                 //nieuwe sequence random in laten laden
                 for (int i = 0; i < seqLevel; i++) {
@@ -151,7 +150,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                         }
                     }.start();
                 } else {
-                    Log.d("state", "SHOW");
+                    Log.d("state", "Show");
                     try {
                         // The pattern step just started, turn the light on
                         setAllDark();
@@ -189,7 +188,7 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                 break;
             //player moet de sequence input geven
             case PLAYSEQ:
-                Log.d("state", "PLAY");
+                Log.d("state", "Waiting on input");
 //                hier een leuke timer die 5 seconden telt speel je niet ben je af.
                 startTimeout(5000);
 
@@ -197,18 +196,17 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
 
             // LOSING STATE
             case LOST:
-                Log.d("state", "LOST");
+                Log.d("state", "Lost");
                 Toast.makeText(cd,
                         "Helaas verloren!", Toast.LENGTH_SHORT).show();
                 cd.saveHighscore(getScore() - 1);
-                resetAllVariables();
-                cd.displayScore(score);
                 stateIdle();
                 checkState();
                 break;
             // WINNER STATE
             case WINNER:
-                Log.d("state", "WINNER");
+                Log.d("state", "Winner");
+                cd.saveHighscore(getScore() - 1);
                 new CountDownTimer(2500, 500) {
                     public void onTick(long millisecCounter) {
                     }
@@ -219,8 +217,14 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                     }
                 }.start();
                 break;
+            /**
+             * This handles the input the player has send our way
+             */
             case PLAYING:
                 Log.d("state", "Playing");
+                /**
+                 * This if statement checks if the player entered the right key
+                 */
                 if (key != sequence.get(seqCount - 1)) {
                     stateLost();
                     checkState();
@@ -258,54 +262,88 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
                     }
                 }
                 break;
+            /**
+             * This basicly does nothing
+             */
             case DESTROY:
                 break;
         }
     }
 
+    /**
+     * Function used to add a new random integer to the sequence arraylist
+     */
     private void addToSequence() {
         Random getal = new Random();
         sequence.add((getal.nextInt(4) + 1));
     }
 
+    /**
+     * Sets state to IDLE
+     */
     @Override
     public void stateIdle() {
         state = State.IDLE;
     }
 
+    /**
+     * Sets state to START
+     */
     @Override
     public void stateStart() {
         state = State.START;
     }
 
+    /**
+     * Sets state to SHOWSEQ
+     */
     @Override
     public void stateShow() {
         state = State.SHOWSEQ;
     }
 
+    /**
+     * Sets state to PLAYSEQ
+     */
     public void statePlay() {
         state = State.PLAYSEQ;
     }
 
+    /**
+     * Sets state to DESTROY
+     */
     public void stateDestroy() {
         state = State.DESTROY;
     }
 
+    /**
+     * Sets state to LOST
+     */
     @Override
     public void stateLost() {
         state = State.LOST;
     }
 
+    /**
+     * Sets state to WINNER
+     */
     @Override
     public void stateWinner() {
         state = State.WINNER;
     }
 
+    /**
+     * Sets state to PLAYING
+     */
     @Override
     public void statePlaying() {
         state = State.PLAYING;
     }
 
+    /**
+     * This is a receiver that handles players interaction
+     * @param key
+     */
     @Override
     public void sequenceHandler(int key) {
 
@@ -320,17 +358,30 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
         }
     }
 
+    /**
+     * Returns the current score
+     * @return int score
+     */
     @Override
     public int getScore() {
         this.score = seqLevel - 1;
         return score;
     }
 
+    /**
+     * Returns the current state
+     * @return State state
+     */
     @Override
     public State getState() {
         return state;
     }
 
+    /**
+     * This function is used to start a timeout
+     * This is only used in gamestate.PLAYSEQ
+     * @param timeout
+     */
     private void startTimeout(int timeout) {
 
         timeouttimer = new CountDownTimer(timeout, 500) {
@@ -346,6 +397,9 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
         }.start();
     }
 
+    /**
+     * This function is used to stop timeouts before the disappear in the dark
+     */
     private void stopTimeout() {
 
         if (isrunning && timer != null) {
@@ -364,13 +418,18 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
         }
     }
 
+    /**
+     * This function sets all the buttons back to dark in case needed
+     */
     private void setAllDark() {
         for (int i = 1; i < 5; i++) {
             cd.setDarkColor(i);
         }
     }
 
-
+    /**
+     * This function resets and destroys all needed things when called
+     */
     public void destroyGame() {
         cd.saveHighscore(getScore());
         resetAllVariables();
@@ -378,6 +437,9 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
         Log.d("Game destroyed", "clear");
     }
 
+    /**
+     * Resets all the variables used throughout the class
+     */
     private void resetAllVariables() {
         seqLevel = 1;
         seqCount = 1;
@@ -389,6 +451,13 @@ public class SimonSequence extends AsyncTask<Void, Void, Void> implements IState
         mPatternStepStartTimeMillis = 0;
     }
 
+    /**
+     * Async task to play a wait and check the gameState
+     * This is used to have a timeout in between flash of buttons
+     *
+     * @param Void
+     * @return
+     */
     @Override
     protected Void doInBackground(Void... Void) {
 

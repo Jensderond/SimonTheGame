@@ -12,5 +12,4 @@ public interface Game {
     void disableButtons();
     void enableButtons();
     void setOnTouchListeners();
-
 }

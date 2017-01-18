@@ -50,7 +50,7 @@ public class UsersListAdapter extends ArrayAdapter<Player> {
      * @param position
      * @param convertView
      * @param parent
-     * @return
+     * @return convertView
      */
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position

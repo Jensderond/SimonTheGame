@@ -95,12 +95,22 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         super.onResume();
     }
 
+    /**
+     * If the player leaves the Activity this calls the game destroyGame function
+     * This will save the highscore if needed and releases all scores and timers running.
+     */
     @Override
     protected void onStop() {
         super.onStop();
         seq.destroyGame();
     }
 
+    /**
+     * This function can be used to make a button Light
+     *
+     * @param color
+     * @param audio
+     */
     public void setLightColor(int color, boolean audio) {
         play_audio = sharedPref.getString("play_audio", "");
         if (play_audio.equals("false")) {
@@ -134,6 +144,10 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         }
     }
 
+    /**
+     * This function can be used to make a button Dark
+     * @param color
+     */
     public void setDarkColor(int color) {
         if (color == GREEN) {
             _green.setBackgroundColor(getResources().getColor(R.color.dark_green, null));
@@ -153,6 +167,9 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         }
     }
 
+    /**
+     * This function holds all the setOnTouchListeners
+     */
     public void setOnTouchListeners() {
         _blue.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -257,16 +274,27 @@ public class ClassicActivity extends Activity implements SoundPlayer.SoundPlayer
         });
     }
 
+    /**
+     * This must be implemented for the SoundPlayer to call back that the audio files are loaded.
+     */
     @Override
     public void OnAudioLoadComplete() {
         //Do something
     }
 
+    /**
+     * This function can be called to update the score.
+     * @param score
+     */
     @Override
     public void displayScore(int score) {
         textViewScore.setText(String.valueOf(score));
     }
 
+    /**
+     *
+     * @param score
+     */
     @Override
     public void saveHighscore(int score) {
 
